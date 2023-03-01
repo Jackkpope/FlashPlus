@@ -1,0 +1,47 @@
+﻿@page "/login"
+@layout UnauthorizedLayout
+
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+<div class="form-container center-horizontal center-vertical">
+    <div class="form">
+        <EditForm Model="@loginModel" OnSubmit="@HandleLogin">
+            <h1 class="center-horizontal">Login</h1>
+            <h2>Username</h2>
+
+            <InputText class="form-input" @bind-Value="@loginModel.Username" type="text" />
+
+            <div class="center-vertical">
+                <h2>Password</h2>
+                <a class="link-button">forgot password?</a>
+            </div>
+
+            <InputText class="form-input" @bind-Value="@loginModel.Password" type="password" />
+
+            <button class="form-submit" type="submit">Submit</button>
+
+            <p class="center-horizontal">Don't have an account?&nbsp<NavLink href="register">Register</NavLink></p>
+
+
+            @if (errorMessage != null)
+            {
+                <p2 class="error-message center-horizontal">@errorMessage</p2>
+            }
+
+            <NavLink class="link-button" href="/">back</NavLink>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    string errorMessage;
+    EntryModel loginModel = new EntryModel();
+
+    public async Task HandleLogin()
+    {
+        await localStorage.SetItemAsync("SessionID", "1234");
+
+        NavigationManager.NavigateTo("/dashboard");
+    }
+}

@@ -1,0 +1,802 @@
+/*--------------------------------------------------FONTS--------------------------------------------------------------*/
+
+@font-face {
+    font-family: 'speedaybold';
+    src: url('../fonts/speeday-bold-ffp-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'akira_expandedsuper_bold';
+    src: url('../fonts/akira_expanded_demo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    src: url('../fonts/MADEOkineSansPERSONALUSE-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    margin: 0;
+    background-color: #5b899b;
+}
+
+header {
+    background-color: #264653;
+    border-bottom: 2px solid #e5e5e5;
+    overflow: hidden;
+    height: 7vh;
+    position: sticky;
+    top: 0;
+    justify-content: space-between;
+}
+
+footer {
+    background-color: #264653;
+    border-top: 2px solid #e5e5e5;
+    overflow: hidden;
+    height: 7vh;
+}
+
+h1 {
+    font-size: 42px;
+    color: #264653;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 20px;
+    color: #8f8f8f;
+    font-weight: 100;
+}
+
+h3 {
+    font-size: 28px;
+    color: #ffffff;
+    font-weight: 100;
+}
+
+p {
+    font-size: 13px;
+    color: #757575;
+}
+
+p2 {
+    font-size: 13px;
+    color: #ffffff;
+}
+
+.center-vertical {
+    display: flex;
+    align-items: center;
+}
+
+.center-horizontal {
+    display: flex;
+    justify-content: center;
+}
+
+
+/*------------------------------------------------HEADER------------------------------------------------------------*/
+
+.logo {
+    display: flex;
+    padding: 0px 0px 0px 40px;
+}
+
+    .logo span.text1 {
+        font-family: 'speedaybold';
+        font-size: 34px;
+        padding-right: 12px;
+    }
+
+    .logo span.text2 {
+        font-family: 'akira_expandedsuper_bold';
+        font-size: 22px;
+    }
+
+    .logo a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+        .logo a:hover {
+            cursor: pointer;
+            color: #e9c46a;
+            transition-duration: 0.2s;
+        }
+
+.hover-underline-animation {
+    position: relative;
+}
+
+    .hover-underline-animation::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: #FFFFFF;
+        transform-origin: bottom left;
+        transition: transform 0.25s ease-out;
+        transform: scaleX(0);
+    }
+
+    .hover-underline-animation:hover::after {
+        transform: scaleX(1);
+    }
+
+
+.links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    margin-right: 25px;
+}
+
+    .links a:hover {
+        cursor: pointer;
+        color: #e9c46a;
+        transition-duration: 0.2s;
+    }
+
+    .links a:focus {
+        color: #e9c46a;
+    }
+
+.profile-button {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 15px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 5px;
+    width: 90px;
+    height: 30px;
+    margin-right: 40px;
+}
+
+    .profile-button:hover {
+        cursor: pointer;
+        background-color: #e9c46a;
+        color: #ffffff;
+        transition-duration: 0.2s;
+    }
+
+/*----------------------------------------------------------HOME--------------------------------------------------------*/
+
+.home-container {
+    height: 93vh;
+    justify-content: space-between;
+}
+
+    .home-container h1 {
+        font-size: 54px;
+        color: #ffffff;
+        margin: 0;
+    }
+
+    .home-container p {
+        font-size: 24px;
+        color: #d4d4d4;
+        margin: 0;
+    }
+
+    .home-container div.text {
+        font-family: 'MADE Okine Sans PERSONAL USE';
+        margin-left: 60px;
+    }
+
+    .home-container div.card-container {
+        margin-right: 175px;
+    }
+
+    .home-container div.card {
+        background-color: #ffffff;
+        width: 600px;
+        height: 350px;
+        border-radius: 30px;
+    }
+
+    .home-container div.buttons {
+        margin-top: 30px;
+    }
+
+    .home-container button {
+        font-family: 'MADE Okine Sans PERSONAL USE';
+        font-size: 16px;
+        border: 0px;
+        border-radius: 10px;
+        width: 125px;
+        height: 40px;
+        transition-duration: 0.2s;
+    }
+
+        .home-container button.getstarted {
+            background-color: #ffffff;
+            color: #264653;
+            margin-right: 10px;
+        }
+
+            .home-container button.getstarted:hover {
+                cursor: pointer;
+                color: #ffffff;
+                background-color: #e9c46a;
+                transform: scale(1.05);
+                transition-duration: 0.2s;
+            }
+
+
+        .home-container button.login {
+            background-color: #264653;
+            color: #ffffff;
+        }
+
+            .home-container button.login:hover {
+                cursor: pointer;
+                background-color: #e9c46a;
+                border-color: transparent;
+                transform: scale(1.05);
+                transition-duration: 0.2s;
+            }
+
+.about-container {
+    margin: 0px 0px 0px 0px;
+    height: 93vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+    .about-container h1 {
+        margin: 10vh 0px 0px 0px;
+        font-size: 40px;
+        color: #264653;
+    }
+
+    .about-container p {
+        font-size: 20px;
+        padding: 0px 200px 0px 200px;
+        color: #264653;
+        margin: 0;
+    }
+
+    .about-container div.text {
+        font-family: 'MADE Okine Sans PERSONAL USE';
+    }
+
+/*------------------------------------------------LOGIN / REGISTER-----------------------------------------------------------------*/
+
+.form-container {
+    height: 93vh;
+}
+
+.form {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    width: 500px;
+    height: auto;
+    padding: 0px 0px 40px 0px;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+.form-container h2 {
+    margin: 0px 0px 0px 100px;
+}
+
+.form-container a {
+    font-size: 13px;
+    text-decoration: underline;
+    color: #757575;
+}
+
+    .form-container a:hover {
+        cursor: pointer;
+        color: #505050;
+    }
+
+.form-input {
+    font-size: 16px;
+    padding: 4px;
+    margin: 0px 100px 20px 100px;
+    width: 288px;
+    height: 30px;
+    border: 2px solid #264653;
+    border-radius: 5px;
+}
+
+    .form-input:focus {
+        outline: none;
+        border: 2px solid #e9c46a;
+    }
+
+.form-container .form-submit {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 24px;
+    margin: 0px 100px 20px 100px;
+    width: 300px;
+    height: 75px;
+    border: transparent;
+    border-radius: 5px;
+    background-color: #264653;
+    color: #ffffff;
+    transition-duration: 0.2s;
+}
+
+    .form-container .form-submit:hover {
+        cursor: pointer;
+        background-color: #e9c46a;
+        border-color: transparent;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
+
+.link-button {
+    margin-left: 100px;
+}
+
+.error-message {
+    font-size: 14px;
+    color: #e42a2a;
+}
+
+/*----------------------------------------------VIEW / CREATE-------------------------------------------------------------------*/
+
+.viewflashcardset-container {
+    display: flex;
+}
+
+.createflashcardset-container {
+    margin: 40px 0px 0px 0px;
+    padding: 5px 50px 40px 50px;
+    width: fit-content;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.set-container {
+    margin: 40px 0px 0px 235px;
+    padding: 5px 50px 40px 50px;
+    width: fit-content;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.extras-container {
+    padding: 0px 0px 20px 0px;
+    margin: 40px 0px 0px 20px;
+    width: 195px;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.titleinput-container {
+    width: fit-content;
+    height: auto;
+    padding: 5px 0px 40px 40px;
+    margin: 0px 0px 20px 0px;
+    border-radius: 20px;
+    display: flex;
+    background-color: #ffffff;
+}
+
+    .titleinput-container textarea {
+        width: 300px;
+        height: 30px;
+        margin: 0px 40px 0px 0px;
+        resize: none;
+        font-size: 16px;
+        padding: 4px;
+        border: 2px solid #264653;
+        border-radius: 5px;
+    }
+
+
+.card-container {
+    width: 664px;
+    height: 435.375px;
+    padding: 5px 40px 10px 40px;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+    .card-container textarea {
+        width: 652px;
+        height: 40px;
+        resize: none;
+        font-size: 16px;
+        padding: 4px;
+        border: 2px solid #264653;
+        border-radius: 5px;
+    }
+
+        .card-container textarea:nth-child(4) {
+            height: 200px;
+        }
+
+.newcard-button {
+    font-size: 32px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 300px;
+    height: 40px;
+    margin: 20px 0px 0px 232px;
+    transition-duration: 0.2s;
+}
+
+.nextcard-button {
+    font-size: 24px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin: 20px 0px 0px 0px;
+    transition-duration: 0.2s;
+}
+
+    .newcard-button:hover, .nextcard-button:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e9c46a;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
+
+#card-counter {
+    align-self: center;
+    color: #8f8f8f;
+    font-size: 16px;
+    margin: 20px 40px 0px 40px;
+}
+
+.cardflip-container {
+    width: 744px;
+    height: 450.375px;
+    border-radius: 20px;
+    perspective: 4000px;
+    background-color: none;
+}
+
+    .cardflip-container:hover .cardflipinner-container {
+        transform: rotateY(180deg);
+    }
+
+.cardflipinner-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.card-front h2 {
+    margin: 0px 0px 20px 0px;
+    font-size: 32px;
+}
+
+.extras-button {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 24px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 175px;
+    height: 75px;
+    margin: 20px 10px 0px 10px;
+    transition-duration: 0.2s;
+}
+
+    .extras-button:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e9c46a;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
+
+/*----------------------------------------------LIBRARY / SEARCH / DASHBOARD-------------------------------------------------------------------*/
+
+.searchflashcardset-container {
+    display: flex;
+}
+
+.LHS-container {
+    margin: 40px 0px 0px 180px;
+    padding: 0px 50px 40px 50px;
+    width: fit-content;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.RHS-container {
+    margin: 40px 0px 0px 20px;
+    width: fit-content;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.searchoptions-container {
+}
+
+.options-container {
+    width: 200px;
+    height: auto;
+    padding: 0px 0px 40px 20px;
+    margin: 20px 20px 20px 20px;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+.option {
+    display: flex;
+}
+
+.searchbar {
+    width: fit-content;
+    height: auto;
+    padding: 20px;
+    margin: 20px 0px 20px 0px;
+    border-radius: 20px;
+    display: flex;
+    background-color: #ffffff;
+}
+
+    .searchbar:nth-child(2) {
+        margin: 20px 20px 20px 200px;
+    }
+
+    .searchbar textarea {
+        width: 500px;
+        height: 30px;
+        margin: 0px 40px 0px 0px;
+        resize: none;
+        font-size: 16px;
+        padding: 4px;
+        border: 2px solid #264653;
+        border-radius: 5px;
+    }
+
+.search-button {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 20px;
+    background-color: #264653;
+    color: #ffffff;
+    border: 0px;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    transition-duration: 0.2s;
+}
+
+    .search-button:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e9c46a;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
+
+.set-row {
+    display: flex;
+}
+
+.flashcardset {
+    width: 380px;
+    height: 250px;
+    margin: 40px 0px 0px 0px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+    .flashcardset:nth-child(2) {
+        margin: 40px 30px 0px 30px;
+    }
+
+
+.dashboard-container {
+    margin: 40px 0px 0px 0px;
+    padding: 40px 50px 40px 50px;
+    width: auto;
+    height: 740px;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+    .dashboard-container h3 {
+        margin: 0px 20px 20px 0px;
+    }
+
+    .dashboard-container p {
+        color: #d4d4d4;
+    }
+
+.title-container {
+    display: flex;
+}
+
+.menu-container {
+    display: flex;
+}
+
+    .menu-container p {
+        color: #8f8f8f;
+        font-size: 16px;
+    }
+
+.stack-container {
+    display: inline;
+}
+
+.select-container1 {
+    width: 400px;
+    height: 628px;
+    padding: 20px 40px 20px 40px;
+    margin: 0px 40px 0px 0px;
+    border-radius: 20px;
+    text-decoration: none;
+    background-color: #ffffff;
+}
+
+.select-container2 {
+    width: 600px;
+    height: 274px;
+    padding: 20px 40px 20px 40px;
+    margin: 0px 0px 40px 0px;
+    border-radius: 20px;
+    text-decoration: none;
+    background-color: #ffffff;
+}
+
+    .select-container1 h1, .select-container2 h1 {
+        margin-bottom: 0px;
+        transition-duration: 0.2s;
+    }
+
+    .select-container1:hover, .select-container2:hover {
+        transition-duration: 0.3s;
+        background-color: #e9c46a;
+        cursor: pointer;
+    }
+
+        .select-container1:hover h1 {
+            color: #ffffff;
+            font-size: 52px;
+            transition-duration: 0.2s;
+        }
+
+        .select-container2:hover h1 {
+            color: #ffffff;
+            font-size: 52px;
+            transition-duration: 0.2s;
+        }
+
+.library-container {
+    margin: 40px 0px 0px 0px;
+    padding: 40px 50px 40px 50px;
+    width: 1600px;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+    .library-container h3 {
+        margin: 0px 20px 20px 0px;
+    }
+
+    .library-container p {
+        color: #d4d4d4;
+    }
+
+.DRHS-container {
+    size: auto;
+}
+
+
+.set-row {
+    display: flex;
+}
+
+.DLHS-container {
+    margin: 40px 0px 0px 0px;
+    float: left;
+    display: flex;
+}
+
+.foldersbar-container {
+    height: 600px;
+}
+
+.foldersbar {
+    width: 340px;
+    height: 540px;
+    margin: 0px 0px 20px 0px;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+.folder {
+    display: flex;
+}
+
+    .folder img {
+        size: 32px;
+    }
+
+    .folder p {
+        font-size: 20px;
+    }
+
+
+.divider {
+    width: 5px;
+    height: 540px;
+    margin: 0px 40px 0px 40px;
+    border-radius: 20px;
+    background-color: #757575;
+}
+
+.createfolder-button {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 20px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 200px;
+    height: 40px;
+    transition-duration: 0.2s;
+}
+
+    .createfolder-button:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e9c46a;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }

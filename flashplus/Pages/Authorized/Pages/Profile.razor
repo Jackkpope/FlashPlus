@@ -1,0 +1,15 @@
+﻿@page "/profile"
+@layout AuthorizedLayout
+
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+<button onclick="@HandleLogout">Logout</button>
+
+@code {
+    public async Task HandleLogout()
+    {
+        await localStorage.ClearAsync();
+        NavigationManager.NavigateTo("/");
+    }
+}

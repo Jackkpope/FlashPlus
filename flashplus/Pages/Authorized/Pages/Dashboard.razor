@@ -1,0 +1,44 @@
+﻿@page "/dashboard"
+@layout AuthorizedLayout
+
+<PageTitle>Dashboard</PageTitle>
+
+<div class="center-horizontal">
+    <div class="dashboard-container">
+
+        <div class="title-container">
+            <h3>Dashboard</h3>
+            <p>Welcome Back</p>
+        </div>
+
+        <div class="menu-container">
+
+            <a class="select-container1" href="createflashcardset.html">
+                <h1 class="select-text">CREATE</h1>
+                <p>A new set of flashcards</p>
+            </a>
+
+
+            <div class="stack-container">
+
+                <div class="menu-container">
+                    <a class="select-container2" href="viewflashcardset.html">
+                        <h1>VIEW</h1>
+                        <p>Your own flashcard sets</p>
+                    </a>
+                </div>
+
+                <div class="menu-container">
+                    <a class="select-container2" href="searchflashcardset.html">
+                        <h1>SEARCH</h1>
+                        <p>A vast library of flashcards created by others</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
