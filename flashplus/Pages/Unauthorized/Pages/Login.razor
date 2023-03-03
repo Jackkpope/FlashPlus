@@ -1,7 +1,6 @@
 ﻿@page "/login"
 @layout UnauthorizedLayout
 
-@inject IDataAccess DataAccess
 @inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
@@ -41,35 +40,8 @@
 
     public async Task HandleLogin()
     {
-        if(!(String.IsNullOrEmpty(loginModel.Username) || String.IsNullOrEmpty(loginModel.Password)))
-        {
-            try
-            {
-                UserModel userModel = await DataAccess.GetUserDetailsAsync(loginModel.Username, loginModel.Password);
-                Console.WriteLine(userModel.ID);
+        await localStorage.SetItemAsync("SessionID", "1234");
 
-                if(userModel.ID != 0)
-                {
-                    await localStorage.SetItemAsync("SessionID", userModel.ID);
-                    await localStorage.SetItemAsync("Username", userModel.Username);
-                    NavigationManager.NavigateTo("/dashboard");
-                }
-                else
-                {
-                    errorMessage = "Invalid Credentials";
-                }
-            }
-
-            finally
-            {
-                loginModel = new EntryModel();
-            }
-        }
-
-        else
-        {
-            errorMessage = "Fields cannot be left blank";
-            loginModel = new EntryModel();
-        }
+        NavigationManager.NavigateTo("/dashboard");
     }
 }

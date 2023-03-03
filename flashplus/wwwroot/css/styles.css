@@ -210,7 +210,6 @@ p2 {
         width: 600px;
         height: 350px;
         border-radius: 30px;
-        border: 0px;
     }
 
     .home-container div.buttons {
@@ -676,7 +675,7 @@ p2 {
 
 .select-container1 {
     width: 400px;
-    height: 588px;
+    height: 628px;
     padding: 20px 40px 20px 40px;
     margin: 0px 40px 0px 0px;
     border-radius: 20px;
