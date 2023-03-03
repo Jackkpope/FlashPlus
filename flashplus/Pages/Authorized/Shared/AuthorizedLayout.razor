@@ -9,37 +9,36 @@
 
     protected override async Task OnInitializedAsync()
     {
-        SessionID = await localStorage.GetItemAsync<string>("SessionID");
+        try
+        {
+            // User has a valid session, display authenticated content
+            SessionID = await localStorage.GetItemAsync<string>("SessionID");
+        }
+        catch
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+
         IsInitialized = true;
     }
 }
 
 @if(IsInitialized)
 {
-    @if (!String.IsNullOrEmpty(SessionID))
-    {
-        // User has a valid session, display authenticated content
-        <div id="top"></div>
-        <header class="center-vertical">
-            <h1 class="logo"><NavLink class="hover-underline-animation" href="/"><span class="text1">FLASH</span><span class="text2">PLUS+</span></NavLink></h1>
+    <div id="top"></div>
+    <header class="center-vertical">
+        <h1 class="logo"><NavLink class="hover-underline-animation" href="/"><span class="text1">FLASH</span><span class="text2">PLUS+</span></NavLink></h1>
 
-            <div class="links">
+        <div class="links">
 
-                <NavLink href="/">Home</NavLink>
-                <NavLink href="#about">About</NavLink>
-                <NavLink href="dashboard">Dashboard</NavLink>
-                <NavLink href="profile"><button class="profile-button">Profile</button></NavLink>
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="#about">About</NavLink>
+            <NavLink href="dashboard">Dashboard</NavLink>
+            <NavLink href="profile"><button class="profile-button">Profile</button></NavLink>
 
-            </div>
+        </div>
 
-        </header>
+    </header>
 
-        @Body
-    }
-    else
-    {
-        // User does not have a valid session, redirect to login page
-        Console.WriteLine("else");
-        NavigationManager.NavigateTo("/login");
-    }
+    @Body
 }
