@@ -1,6 +1,8 @@
 ﻿@page "/dashboard"
 @layout AuthorizedLayout
 
+@inject ILocalStorageService localStorage
+
 <PageTitle>Dashboard</PageTitle>
 
 <div class="center-horizontal">
@@ -8,7 +10,7 @@
 
         <div class="title-container">
             <h3>Dashboard</h3>
-            <p>Welcome Back</p>
+            <p>Welcome Back @Username</p>
         </div>
 
         <div class="menu-container">
@@ -40,5 +42,17 @@
 </div>
 
 @code {
+    string Username;
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Username = await localStorage.GetItemAsync<string>("Username");
+        }
+        catch
+        {
+            Username = null;
+        }
+    }
 }
