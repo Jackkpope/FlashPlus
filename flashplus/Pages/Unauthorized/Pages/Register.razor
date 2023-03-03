@@ -1,7 +1,69 @@
 ﻿@page "/register"
+@layout UnauthorizedLayout
 
-<h3>Register</h3>
+<div class="form-container center-horizontal center-vertical">
+    <div class="form">
+
+        <EditForm Model="@registerModel" OnSubmit="@HandleRegister">
+
+            <h1 class="center-horizontal">Register</h1>
+            <h2>Username</h2>
+            <InputText class="form-input" @bind-Value="@registerModel.Username" type="text" />
+
+            <h2>Password</h2>
+            <InputText class="form-input" @bind-Value="@registerModel.Password" type="password" />
+
+            <h2>Confirm Password</h2>
+            <InputText class="form-input" @bind-Value="@registerModel.ConfirmPassword" type="password" />
+
+            <button class="form-submit" type="submit">Submit</button>
+
+            <p class="center-horizontal">Already have an account?&nbsp<NavLink href="login">Login</NavLink></p>
+
+            @if (errorMessage != null)
+            {
+                <p2 class="error-message center-horizontal">@errorMessage</p2>
+            }
+
+            <NavLink class="link-button" href="/">back</NavLink>
+
+        </EditForm>
+
+    </div>
+</div>
 
 @code {
+    public string errorMessage{ get; set; }
+    EntryModel registerModel = new EntryModel();
 
+    public async Task HandleRegister()
+    {
+        errorMessage = RegisterValidation(registerModel);
+        Console.WriteLine(errorMessage);
+    }
+
+    public static string RegisterValidation(EntryModel registerModel)
+    {
+        if (String.IsNullOrEmpty(registerModel.Username) || String.IsNullOrEmpty(registerModel.Password) || String.IsNullOrEmpty(registerModel.ConfirmPassword))
+        {
+            return "Fields cannot be left blank";
+        }
+
+        if (registerModel.Username.Length <= 4)
+        {
+            return "Username must be longer than 4 characters";
+        }
+
+        if (registerModel.Password != registerModel.ConfirmPassword)
+        {
+            return "Passwords don't match";
+        }
+
+        else
+        {
+            return null;
+        }
+
+        registerModel = new EntryModel();
+    }
 }
