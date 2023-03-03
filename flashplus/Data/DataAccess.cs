@@ -5,8 +5,8 @@ namespace flashplus.Data
 {
     public interface IDataAccess
     {
-        Task<UserModel> GetUserDetailsAsync(string Username, string Password);
-        Task<bool> AddUserDetailsAsync(string Username, string Password);
+        Task<UserModel> GetUserDetailsAsync(EntryModel loginModel);
+        Task<bool> AddUserDetailsAsync(EntryModel registerModel);
         Task<bool> CheckUsernameTakenAsync(string Username);
 
     }
@@ -18,15 +18,15 @@ namespace flashplus.Data
 
         }
 
-        private static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Jackp\OneDrive\Documents\flashplus.accdb;Persist Security Info=False;";
+        private static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Jackp\Documents\flashplus.accdb;Persist Security Info=False;";
 
-        public async Task<UserModel> GetUserDetailsAsync(string Username, string PasswordHash)
+        public async Task<UserModel> GetUserDetailsAsync(EntryModel loginModel)
         {
             await using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
 
-                string queryString = @"SELECT ID,Username,PasswordHash FROM UserDetails WHERE Username='" + Username + "' AND PasswordHash='" + PasswordHash + "';";
+                string queryString = @"SELECT ID,Username,PasswordHash FROM UserDetails WHERE Username='" + loginModel.Username + "' AND PasswordHash='" + loginModel.Password + "';";
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 OleDbDataReader reader = command.ExecuteReader();
 
@@ -43,13 +43,13 @@ namespace flashplus.Data
 
         }
 
-        public async Task<bool> AddUserDetailsAsync(string Username, string Password)
+        public async Task<bool> AddUserDetailsAsync(EntryModel registerModel)
         {
             await using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 connection.Open();
 
-                string queryString = @"SELECT ID,Username,Password FROM UserDetails WHERE Username='" + Username + "' AND Password='" + Password + "';";
+                string queryString = @"INSERT INTO UserDetails (Username,PasswordHash) VALUES ('"+ registerModel.Username + "','"+ registerModel.Password + "');";
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 int rowsAffected = command.ExecuteNonQuery();
 

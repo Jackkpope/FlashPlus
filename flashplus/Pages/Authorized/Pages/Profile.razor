@@ -4,7 +4,9 @@
 @inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<button onclick="@HandleLogout">Logout</button>
+<div class="form-container center-horizontal center-vertical">
+    <button class="form-submit center-horizontal center-vertical" onclick="@HandleLogout">Logout</button>
+</div>
 
 @code {
     public async Task HandleLogout()

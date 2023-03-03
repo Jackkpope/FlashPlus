@@ -1,6 +1,9 @@
 ﻿@page "/register"
 @layout UnauthorizedLayout
 
+@inject IDataAccess DataAccess
+@inject NavigationManager NavigationManager
+
 <div class="form-container center-horizontal center-vertical">
     <div class="form">
 
@@ -32,26 +35,57 @@
     </div>
 </div>
 
-@code {
-    public string errorMessage{ get; set; }
+@code 
+{
+    string errorMessage;
     EntryModel registerModel = new EntryModel();
 
     public async Task HandleRegister()
     {
-        errorMessage = RegisterValidation(registerModel);
-        Console.WriteLine(errorMessage);
+        errorMessage = Convert.ToString(await RegisterValidation(registerModel));
+
+        if (String.IsNullOrEmpty(errorMessage))
+        {
+            bool complete = await DataAccess.AddUserDetailsAsync(registerModel);
+
+            if (complete == true)
+            {
+                NavigationManager.NavigateTo("login");
+            }
+            else
+            {
+                errorMessage = "There has been an error processing your request, please try again later";
+            }
+        }
     }
 
-    public static string RegisterValidation(EntryModel registerModel)
+    public async Task<string> RegisterValidation(EntryModel registerModel)
     {
         if (String.IsNullOrEmpty(registerModel.Username) || String.IsNullOrEmpty(registerModel.Password) || String.IsNullOrEmpty(registerModel.ConfirmPassword))
         {
             return "Fields cannot be left blank";
         }
 
-        if (registerModel.Username.Length <= 4)
+        bool usernameTaken = await DataAccess.CheckUsernameTakenAsync(registerModel.Username);
+
+        if (usernameTaken == true)
         {
-            return "Username must be longer than 4 characters";
+            return "Username is already taken";
+        }
+
+        if (registerModel.Username.Length < 4)
+        {
+            return "Username must be at least 4 characters";
+        }
+
+        if (registerModel.Password.Length < 8)
+        {
+            return "Password must be at least 8 characters";
+        }
+
+        if (!(registerModel.Password.Contains('!') || registerModel.Password.Contains('?') || registerModel.Password.Contains('@') || registerModel.Password.Contains('&')))
+        {
+            return "Password must contain at least one: ! ? @ &";
         }
 
         if (registerModel.Password != registerModel.ConfirmPassword)

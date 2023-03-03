@@ -38,7 +38,8 @@
     </div>
 </div>
 
-@code {
+@code 
+{
     string errorMessage;
     EntryModel loginModel = new EntryModel();
 
@@ -48,7 +49,7 @@
         {
             try
             {
-                UserModel userModel = await DataAccess.GetUserDetailsAsync(loginModel.Username, loginModel.Password);
+                UserModel userModel = await DataAccess.GetUserDetailsAsync(loginModel);
                 Console.WriteLine(userModel.ID);
 
                 if(userModel.ID != 0)

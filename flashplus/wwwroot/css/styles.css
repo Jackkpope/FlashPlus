@@ -326,7 +326,7 @@ p2 {
         border: 2px solid #e9c46a;
     }
 
-.form-container .form-submit {
+.form-submit {
     font-family: 'MADE Okine Sans PERSONAL USE';
     font-size: 24px;
     margin: 0px 100px 20px 100px;
@@ -339,13 +339,14 @@ p2 {
     transition-duration: 0.2s;
 }
 
-    .form-container .form-submit:hover {
-        cursor: pointer;
-        background-color: #e9c46a;
-        border-color: transparent;
-        transform: scale(1.05);
-        transition-duration: 0.2s;
-    }
+.form-submit:hover 
+{
+    cursor: pointer;
+    background-color: #e9c46a;
+    border-color: transparent;
+    transform: scale(1.05);
+    transition-duration: 0.2s;
+}
 
 .link-button {
     margin-left: 100px;
