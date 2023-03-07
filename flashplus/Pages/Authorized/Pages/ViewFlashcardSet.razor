@@ -1,0 +1,99 @@
+﻿@page "/viewflashcardset"
+@layout AuthorizedLayout
+
+@inject IFlashcardSetDataAccess FlashcardSetDataAccess
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+@code{
+    string SessionID { get; set; }
+    bool IsInitialized { get; set; }
+    int cardNo = 1;
+    FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+    FlashcardSetCircularQueue flashcardSetCircularQueue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SessionID = await localStorage.GetItemAsync<string>("SessionID");
+        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, "31");
+        flashcardSetCircularQueue = new FlashcardSetCircularQueue(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
+
+        IsInitialized = true;
+    }
+
+    public void GetNextCard()
+    {
+        flashcardSetCircularQueue.GetNextFlashcard();
+
+        if (cardNo == flashcardSetModel.TotalCards)
+        {
+            cardNo = 1;
+        }
+        else
+        {
+            cardNo++;
+        }
+    }
+
+    public void GetPreviousCard()
+    {
+        flashcardSetCircularQueue.GetPreviousFlashcard();
+
+        if (cardNo == 1)
+        {
+            cardNo = 7;
+        }
+        else
+        {
+            cardNo--;
+        }
+    }
+}
+
+@if(IsInitialized)
+{
+    <PageTitle>View Flashcard Set</PageTitle>
+
+    <div class="center-horizontal">
+        <div class="viewflashcardset-container">
+            <div class="set-container">
+                <h3>@flashcardSetModel.Title</h3>
+                <h2>@flashcardSetModel.Subject</h2>
+        
+                <div class="cardflip-container">
+
+                    <div class="cardflipinner-container">
+
+                        <div class="card-front">
+                            <h2>@flashcardSetCircularQueue.Question</h2>
+                        </div>
+        
+                        <div class="card-back">
+                            <h2>@flashcardSetCircularQueue.Answer</h2>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="center-horizontal">
+                    <button class="nextcard-button" onclick="@GetPreviousCard">&lt;</button>
+                    <p id="card-counter">@cardNo / @flashcardSetModel.TotalCards</p>
+                    <button class="nextcard-button" onclick="@GetNextCard">&gt;</button>
+                </div>
+
+                <div>
+                    <h2>Created by @flashcardSetModel.CreatedUsername</h2>
+                </div>
+
+
+            </div>
+            <div class="extras-container">
+                <div>
+                    <button id="test" class="extras-button">Test</button>
+                    <button id="flash" class="extras-button">Flash</button>
+                    <button id="leaderboard" class="extras-button">Leaderboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

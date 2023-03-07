@@ -1,0 +1,70 @@
+﻿@page "/createflashcardset"
+@layout AuthorizedLayout
+
+<PageTitle>Create Flashcard Set</PageTitle>
+
+<div class="center-horizontal">
+    <div class="createflashcardset-container">
+        <h3>Create a flashcard set</h3>
+
+        <div class="titleinput-container">
+            <div>
+                <h2>Title</h2>
+                <textarea id="title"></textarea>
+            </div>
+
+            <div>
+                <h2>Subject</h2>
+                <textarea id="subject"></textarea>
+            </div>
+
+        </div>
+
+        <div class="card-container">
+            <h2>Question</h2>
+            <textarea id="question" maxlength="120"></textarea>
+            <h2>Answer</h2>
+            <textarea id="answer" maxlength="600"></textarea>
+            <p>#1</p>
+        </div>
+
+        @foreach(var i in flashcardStack)
+        {
+            <div class="card-container">
+                <h2>Question</h2>
+                <textarea id="question" maxlength="120"></textarea>
+                <h2>Answer</h2>
+                <textarea id="answer" maxlength="600"></textarea>
+                <p>#@cardCount</p>
+            </div>
+        }
+
+        <div class="center-horizontal">
+            <button class="delcard-button" onclick="@DelCard">-</button>
+            <button class="newcard-button" onclick="@NewCard">+</button>
+            <button class="submit-button" onclick="@SubmitSet">✓</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    int cardCount = 1;
+    Stack<string[]> flashcardStack = new Stack<string[]>();
+
+    public void NewCard()
+    {
+        string[] cardDetails = { "2","fdfd" };
+        flashcardStack.Push(cardDetails);
+        cardCount++;
+    }
+
+    public void DelCard()
+    {
+
+    }
+
+    public void SubmitSet()
+    {
+
+    }
+}

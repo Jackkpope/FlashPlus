@@ -3,7 +3,7 @@ using System.Data.OleDb;
 
 namespace flashplus.Data
 {
-    public interface IDataAccess
+    public interface IEntryDataAccess
     {
         Task<UserModel> GetUserDetailsAsync(EntryModel loginModel);
         Task<bool> AddUserDetailsAsync(EntryModel registerModel);
@@ -11,9 +11,9 @@ namespace flashplus.Data
 
     }
 
-    public class DataAccess : IDataAccess
+    public class EntryDataAccess : IEntryDataAccess
     {
-        public DataAccess()
+        public EntryDataAccess()
         {
 
         }

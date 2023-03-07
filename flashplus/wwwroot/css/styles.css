@@ -364,7 +364,7 @@ p2 {
 }
 
 .createflashcardset-container {
-    margin: 40px 0px 0px 0px;
+    margin: 40px 0px 40px 0px;
     padding: 5px 50px 40px 50px;
     width: fit-content;
     height: auto;
@@ -415,6 +415,7 @@ p2 {
 .card-container {
     width: 664px;
     height: 435.375px;
+    margin: 0px 0px 20px 0px;
     padding: 5px 40px 10px 40px;
     border-radius: 20px;
     background-color: #ffffff;
@@ -442,7 +443,7 @@ p2 {
     border-radius: 10px;
     width: 300px;
     height: 40px;
-    margin: 20px 0px 0px 232px;
+    margin: 20px 40px 0px 40px;
     transition-duration: 0.2s;
 }
 
@@ -458,13 +459,25 @@ p2 {
     transition-duration: 0.2s;
 }
 
-    .newcard-button:hover, .nextcard-button:hover {
-        cursor: pointer;
-        color: #ffffff;
-        background-color: #e9c46a;
-        transform: scale(1.05);
-        transition-duration: 0.2s;
-    }
+.delcard-button, .submit-button {
+    font-size: 20px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 80px;
+    height: 30px;
+    margin: 25px 0px 0px 0px;
+    transition-duration: 0.2s;
+}
+
+.newcard-button:hover, .nextcard-button:hover, .delcard-button:hover, .submit-button:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #e9c46a;
+    transform: scale(1.05);
+    transition-duration: 0.2s;
+}
 
 #card-counter {
     align-self: center;
@@ -677,7 +690,7 @@ p2 {
 
 .select-container1 {
     width: 400px;
-    height: 588px;
+    height: 628px;
     padding: 20px 40px 20px 40px;
     margin: 0px 40px 0px 0px;
     border-radius: 20px;

@@ -1,7 +1,7 @@
 ﻿@page "/register"
 @layout UnauthorizedLayout
 
-@inject IDataAccess DataAccess
+@inject IEntryDataAccess EntryDataAccess
 @inject NavigationManager NavigationManager
 
 <div class="form-container center-horizontal center-vertical">
@@ -46,7 +46,7 @@
 
         if (String.IsNullOrEmpty(errorMessage))
         {
-            bool complete = await DataAccess.AddUserDetailsAsync(registerModel);
+            bool complete = await EntryDataAccess.AddUserDetailsAsync(registerModel);
 
             if (complete == true)
             {
@@ -66,7 +66,7 @@
             return "Fields cannot be left blank";
         }
 
-        bool usernameTaken = await DataAccess.CheckUsernameTakenAsync(registerModel.Username);
+        bool usernameTaken = await EntryDataAccess.CheckUsernameTakenAsync(registerModel.Username);
 
         if (usernameTaken == true)
         {

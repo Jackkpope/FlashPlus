@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddSingleton<IDataAccess, DataAccess>();
+builder.Services.AddSingleton<IEntryDataAccess, EntryDataAccess>();
+builder.Services.AddSingleton<IFlashcardSetDataAccess, FlashcardSetDataAccess>();
 
 
 var app = builder.Build();
