@@ -1,0 +1,61 @@
+﻿@page "/flashcardsetlibrary"
+@layout AuthorizedLayout
+
+@inject IFlashcardSetDataAccess FlashcardSetDataAccess
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+@code{
+    string SessionID { get; set; }
+    bool IsInitialized { get; set; }
+    int pageNo = 1;
+
+    FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+    CircularQueueService flashcardSetsCircularQueue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SessionID = await localStorage.GetItemAsync<string>("SessionID");
+        flashcardSetModel = await FlashcardSetDataAccess.GetAllFlashcardSetsByUserAsync(SessionID);
+        flashcardSetsCircularQueue = new CircularQueueService(flashcardSetModel.FlashcardSets, flashcardSetModel.FlashcardSets.Count);
+
+        IsInitialized = true;
+    }
+}
+
+@if (IsInitialized)
+{
+    <PageTitle>View Flashcard Set</PageTitle>
+
+    <div class="center-horizontal">
+
+        <div class="library-container">
+
+            <div class="title-container">
+                <h3>Flashcard Set Library</h3>
+                <p>/Biology</p>
+            </div>
+            
+
+            @for (int i = 0; i != 2; i++)
+            {
+                <div class="set-row">
+                    @for(int o = 0; o != 3; o++)
+                    {
+                        <div class="flashcardset">
+                            <h2>flashcardSetModel.Title</h2>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="center-horizontal">
+                <button class="nextcard-button">&lt;</button>
+                <p id="card-counter">@pageNo / @flashcardSetModel.FlashcardSets.Count</p>
+                <button class="nextcard-button">&gt;</button>
+            </div>
+
+        </div>
+
+    </div>
+}

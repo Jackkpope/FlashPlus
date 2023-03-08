@@ -734,7 +734,7 @@ p2 {
 .library-container {
     margin: 40px 0px 0px 0px;
     padding: 40px 50px 40px 50px;
-    width: 1600px;
+    width: auto;
     height: auto;
     border-radius: 20px;
     background-color: #264653;

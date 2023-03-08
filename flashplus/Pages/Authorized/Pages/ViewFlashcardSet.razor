@@ -9,21 +9,28 @@
     string SessionID { get; set; }
     bool IsInitialized { get; set; }
     int cardNo = 1;
+
     FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
-    FlashcardSetCircularQueue flashcardSetCircularQueue;
+    CircularQueueService flashcardSetCircularQueue;
 
     protected override async Task OnInitializedAsync()
     {
         SessionID = await localStorage.GetItemAsync<string>("SessionID");
         flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, "31");
-        flashcardSetCircularQueue = new FlashcardSetCircularQueue(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
+        flashcardSetCircularQueue = new CircularQueueService(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
+
+        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetCurrentElement();
+        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
+        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         IsInitialized = true;
     }
 
     public void GetNextCard()
     {
-        flashcardSetCircularQueue.GetNextFlashcard();
+        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetNextElement();
+        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
+        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         if (cardNo == flashcardSetModel.TotalCards)
         {
@@ -37,7 +44,9 @@
 
     public void GetPreviousCard()
     {
-        flashcardSetCircularQueue.GetPreviousFlashcard();
+        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetPreviousElement();
+        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
+        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         if (cardNo == 1)
         {
@@ -65,11 +74,11 @@
                     <div class="cardflipinner-container">
 
                         <div class="card-front">
-                            <h2>@flashcardSetCircularQueue.Question</h2>
+                            <h2>@flashcardSetModel.Question</h2>
                         </div>
         
                         <div class="card-back">
-                            <h2>@flashcardSetCircularQueue.Answer</h2>
+                            <h2>@flashcardSetModel.Answer</h2>
                         </div>
                     </div>
 

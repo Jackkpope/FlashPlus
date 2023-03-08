@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using flashplus.Data;
+using flashplus.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -11,7 +12,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<IEntryDataAccess, EntryDataAccess>();
 builder.Services.AddSingleton<IFlashcardSetDataAccess, FlashcardSetDataAccess>();
-
 
 var app = builder.Build();
 
