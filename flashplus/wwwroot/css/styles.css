@@ -365,8 +365,8 @@ p2 {
 
 .createflashcardset-container {
     margin: 40px 0px 40px 0px;
-    padding: 5px 50px 40px 50px;
-    width: fit-content;
+    padding: 5px 50px 20px 50px;
+    width: 900px;
     height: auto;
     border-radius: 20px;
     background-color: #264653;
@@ -400,7 +400,7 @@ p2 {
     background-color: #ffffff;
 }
 
-    .titleinput-container textarea {
+    .titleinput-container .textarea {
         width: 300px;
         height: 30px;
         margin: 0px 40px 0px 0px;
@@ -415,13 +415,13 @@ p2 {
 .card-container {
     width: 664px;
     height: 435.375px;
-    margin: 0px 0px 20px 0px;
+    margin: 0px 40px 20px 40px;
     padding: 5px 40px 10px 40px;
     border-radius: 20px;
     background-color: #ffffff;
 }
 
-    .card-container textarea {
+    .card-container .textarea {
         width: 652px;
         height: 40px;
         resize: none;
@@ -443,7 +443,7 @@ p2 {
     border-radius: 10px;
     width: 300px;
     height: 40px;
-    margin: 20px 40px 0px 40px;
+    margin: 20px 40px 20px 40px;
     transition-duration: 0.2s;
 }
 
@@ -459,6 +459,33 @@ p2 {
     transition-duration: 0.2s;
 }
 
+.nextcard2-button {
+    font-size: 24px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 40px;
+    height: 450.375px;
+    margin: 0px 0px 0px 840px;
+    transition-duration: 0.2s;
+    position:fixed;
+}
+
+.prevcard2-button {
+    font-size: 24px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 40px;
+    height: 435.375px;
+    margin: 0px 840px 0px 0px;
+    transition-duration: 0.2s;
+    position: fixed;
+}
+
+
 .delcard-button, .submit-button {
     font-size: 20px;
     background-color: #ffffff;
@@ -471,13 +498,13 @@ p2 {
     transition-duration: 0.2s;
 }
 
-.newcard-button:hover, .nextcard-button:hover, .delcard-button:hover, .submit-button:hover {
-    cursor: pointer;
-    color: #ffffff;
-    background-color: #e9c46a;
-    transform: scale(1.05);
-    transition-duration: 0.2s;
-}
+    .newcard-button:hover, .nextcard-button:hover, .nextcard2-button:hover, .prevcard2-button:hover, .delcard-button:hover, .submit-button:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e9c46a;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
 
 #card-counter {
     align-self: center;
@@ -549,6 +576,11 @@ p2 {
         transition-duration: 0.2s;
     }
 
+
+.createhead {
+    margin: 28px 0px 28px 62px;
+}
+
 /*----------------------------------------------LIBRARY / SEARCH / DASHBOARD-------------------------------------------------------------------*/
 
 .searchflashcardset-container {
@@ -602,7 +634,7 @@ p2 {
         margin: 20px 20px 20px 200px;
     }
 
-    .searchbar textarea {
+    .searchbar .textarea {
         width: 500px;
         height: 30px;
         margin: 0px 40px 0px 0px;

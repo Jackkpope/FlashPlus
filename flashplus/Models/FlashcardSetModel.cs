@@ -13,6 +13,7 @@ namespace flashplus.Models
         public string Question { get; set; }
         public string Answer { get; set; }
         public int TotalCards { get; set; }
+        public int CardID { get; set; }
         public int SetID { get; set; }
         public DateTime DateCreated { get; set; }
 

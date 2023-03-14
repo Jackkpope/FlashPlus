@@ -7,7 +7,7 @@ namespace flashplus.Data
     {
         Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string ID, string SetID);
         Task<FlashcardSetModel> GetAllFlashcardSetsByUserAsync(string ID);
-        Task<bool> AddFlashcardSetDetailsAsync(FlashcardSetModel flashcardSetModel);
+        Task<bool> SetFlashcardSetDetailsAsync(string ID, FlashcardSetModel flashcardSetModel);
     }
 
     public class FlashcardSetDataAccess : IFlashcardSetDataAccess
@@ -100,9 +100,60 @@ namespace flashplus.Data
             }
         }
 
-        public async Task<bool> AddFlashcardSetDetailsAsync(FlashcardSetModel flashcardSetModel)
+        public async Task<bool> SetFlashcardSetDetailsAsync(string ID, FlashcardSetModel flashcardSetModel)
         {
-            return true;
+            await using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                string queryString = @"INSERT INTO FlashcardSets (SetName, Subject, TotalCards, ID) VALUES (@SetName,@Subject,@TotalCards,@ID);";
+                OleDbCommand command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("@SetName", flashcardSetModel.Title);
+                command.Parameters.AddWithValue("@Subject", flashcardSetModel.Subject);
+                command.Parameters.AddWithValue("@TotalCards", flashcardSetModel.TotalCards);
+                command.Parameters.AddWithValue("@ID", ID);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
+
+                queryString = @"SELECT @@IDENTITY AS SetID;";
+                command = new OleDbCommand(queryString, connection);
+                OleDbDataReader reader = command.ExecuteReader();
+                while(reader.Read())
+                {
+                    flashcardSetModel.SetID = (int)reader["SetID"];
+                }
+
+                queryString = @"INSERT INTO Flashcards (CardID, SetID, Question, Answer) VALUES (@CardID,@SetID,@Question,@Answer);";
+
+                flashcardSetModel.CardID = 1;
+
+                foreach(var card in flashcardSetModel.Flashcards)
+                {
+                    command = new OleDbCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@CardID", flashcardSetModel.CardID);
+                    command.Parameters.AddWithValue("@SetID", flashcardSetModel.SetID);
+                    command.Parameters.AddWithValue("@Question", card[0]);
+                    command.Parameters.AddWithValue("@Answer", card[1]);
+                    flashcardSetModel.CardID++;
+
+                    Console.WriteLine(flashcardSetModel.CardID.ToString()+" "+ flashcardSetModel.SetID.ToString() + " " + card[0]+" "+ card[1]);
+
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
+
+                return true;
+
+            }
         }
     }
 }

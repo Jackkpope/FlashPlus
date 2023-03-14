@@ -2,102 +2,53 @@
 @layout UnauthorizedLayout
 
 @inject IEntryDataAccess EntryDataAccess
+@inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<div class="form-container center-horizontal center-vertical">
-    <div class="form">
+@code {
+    bool IsInitialized { get; set; }
+    EntryService entryService;
 
-        <EditForm Model="@registerModel" OnSubmit="@HandleRegister">
 
-            <h1 class="center-horizontal">Register</h1>
-            <h2>Username</h2>
-            <InputText class="form-input" @bind-Value="@registerModel.Username" type="text" />
-
-            <h2>Password</h2>
-            <InputText class="form-input" @bind-Value="@registerModel.Password" type="password" />
-
-            <h2>Confirm Password</h2>
-            <InputText class="form-input" @bind-Value="@registerModel.ConfirmPassword" type="password" />
-
-            <button class="form-submit" type="submit">Submit</button>
-
-            <p class="center-horizontal">Already have an account?&nbsp<NavLink href="login">Login</NavLink></p>
-
-            @if (errorMessage != null)
-            {
-                <p2 class="error-message center-horizontal">@errorMessage</p2>
-            }
-
-            <NavLink class="link-button" href="/">back</NavLink>
-
-        </EditForm>
-
-    </div>
-</div>
-
-@code 
-{
-    string errorMessage;
-    EntryModel registerModel = new EntryModel();
-
-    public async Task HandleRegister()
+    protected override async Task OnInitializedAsync()
     {
-        errorMessage = Convert.ToString(await RegisterValidation(registerModel));
-
-        if (String.IsNullOrEmpty(errorMessage))
-        {
-            bool complete = await EntryDataAccess.AddUserDetailsAsync(registerModel);
-
-            if (complete == true)
-            {
-                NavigationManager.NavigateTo("login");
-            }
-            else
-            {
-                errorMessage = "There has been an error processing your request, please try again later";
-            }
-        }
-    }
-
-    public async Task<string> RegisterValidation(EntryModel registerModel)
-    {
-        if (String.IsNullOrEmpty(registerModel.Username) || String.IsNullOrEmpty(registerModel.Password) || String.IsNullOrEmpty(registerModel.ConfirmPassword))
-        {
-            return "Fields cannot be left blank";
-        }
-
-        bool usernameTaken = await EntryDataAccess.CheckUsernameTakenAsync(registerModel.Username);
-
-        if (usernameTaken == true)
-        {
-            return "Username is already taken";
-        }
-
-        if (registerModel.Username.Length < 4)
-        {
-            return "Username must be at least 4 characters";
-        }
-
-        if (registerModel.Password.Length < 8)
-        {
-            return "Password must be at least 8 characters";
-        }
-
-        if (!(registerModel.Password.Contains('!') || registerModel.Password.Contains('?') || registerModel.Password.Contains('@') || registerModel.Password.Contains('&')))
-        {
-            return "Password must contain at least one: ! ? @ &";
-        }
-
-        if (registerModel.Password != registerModel.ConfirmPassword)
-        {
-            return "Passwords don't match";
-        }
-
-        else
-        {
-            return null;
-        }
-
-        registerModel = new EntryModel();
+        entryService = new EntryService(EntryDataAccess, localStorage, NavigationManager);
+        IsInitialized = true;
     }
 }
+
+@if (IsInitialized)
+{
+    <div class="form-container center-horizontal center-vertical">
+        <div class="form">
+
+            <EditForm Model="@entryService.entryModel" OnSubmit="@entryService.HandleRegister">
+
+                <h1 class="center-horizontal">Register</h1>
+                <h2>Username</h2>
+                <InputText class="form-input" @bind-Value="@entryService.entryModel.Username" type="text" />
+
+                <h2>Password</h2>
+                <InputText class="form-input" @bind-Value="@entryService.entryModel.Password" type="password" />
+
+                <h2>Confirm Password</h2>
+                <InputText class="form-input" @bind-Value="@entryService.entryModel.ConfirmPassword" type="password" />
+
+                <button class="form-submit" type="submit">Submit</button>
+
+                <p class="center-horizontal">Already have an account?&nbsp<NavLink href="login">Login</NavLink></p>
+
+                @if (entryService.errorMessage != null)
+                {
+                    <p2 class="error-message center-horizontal">@entryService.errorMessage</p2>
+                }
+
+                <NavLink class="link-button" href="/">back</NavLink>
+
+            </EditForm>
+
+        </div>
+    </div>
+}
+
+

@@ -5,75 +5,50 @@
 @inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<div class="form-container center-horizontal center-vertical">
-    <div class="form">
-
-        <EditForm Model="@loginModel" OnSubmit="@HandleLogin">
-            <h1 class="center-horizontal">Login</h1>
-            <h2>Username</h2>
-
-            <InputText class="form-input" @bind-Value="@loginModel.Username" type="text" />
-
-            <div class="center-vertical">
-                <h2>Password</h2>
-                <a class="link-button">forgot password?</a>
-            </div>
-
-            <InputText class="form-input" @bind-Value="@loginModel.Password" type="password" />
-
-            <button class="form-submit" type="submit">Submit</button>
-
-            <p class="center-horizontal">Don't have an account?&nbsp<NavLink href="register">Register</NavLink></p>
+@code{
+    bool IsInitialized { get; set; }
+    EntryService entryService;
 
 
-            @if (errorMessage != null)
-            {
-                <p2 class="error-message center-horizontal">@errorMessage</p2>
-            }
-
-            <NavLink class="link-button" href="/">back</NavLink>
-
-        </EditForm>
-
-    </div>
-</div>
-
-@code 
-{
-    string errorMessage;
-    EntryModel loginModel = new EntryModel();
-
-    public async Task HandleLogin()
+    protected override async Task OnInitializedAsync()
     {
-        if(!(String.IsNullOrEmpty(loginModel.Username) || String.IsNullOrEmpty(loginModel.Password)))
-        {
-            try
-            {
-                UserModel userModel = await EntryDataAccess.GetUserDetailsAsync(loginModel);
-                Console.WriteLine(userModel.ID);
-
-                if(userModel.ID != 0)
-                {
-                    await localStorage.SetItemAsync("SessionID", userModel.ID);
-                    await localStorage.SetItemAsync("Username", userModel.Username);
-                    NavigationManager.NavigateTo("/dashboard");
-                }
-                else
-                {
-                    errorMessage = "Invalid Credentials";
-                }
-            }
-
-            finally
-            {
-                loginModel = new EntryModel();
-            }
-        }
-
-        else
-        {
-            errorMessage = "Fields cannot be left blank";
-            loginModel = new EntryModel();
-        }
+        entryService = new EntryService(EntryDataAccess, localStorage, NavigationManager);
+        IsInitialized = true;
     }
+}
+
+@if (IsInitialized)
+{
+    <div class="form-container center-horizontal center-vertical">
+        <div class="form">
+
+            <EditForm Model="@entryService.entryModel" OnSubmit="@entryService.HandleLogin">
+                <h1 class="center-horizontal">Login</h1>
+                <h2>Username</h2>
+
+                <InputText class="form-input" @bind-Value="@entryService.entryModel.Username" type="text" />
+
+                <div class="center-vertical">
+                    <h2>Password</h2>
+                    <a class="link-button">forgot password?</a>
+                </div>
+
+                <InputText class="form-input" @bind-Value="@entryService.entryModel.Password" type="password" />
+
+                <button class="form-submit" type="submit">Submit</button>
+
+                <p class="center-horizontal">Don't have an account?&nbsp<NavLink href="register">Register</NavLink></p>
+
+
+                @if (entryService.errorMessage != null)
+                {
+                    <p2 class="error-message center-horizontal">@entryService.errorMessage</p2>
+                }
+
+                <NavLink class="link-button" href="/">back</NavLink>
+
+            </EditForm>
+
+        </div>
+    </div>
 }

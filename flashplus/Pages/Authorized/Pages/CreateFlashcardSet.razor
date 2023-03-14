@@ -1,70 +1,83 @@
 ﻿@page "/createflashcardset"
 @layout AuthorizedLayout
 
-<PageTitle>Create Flashcard Set</PageTitle>
+@inject IFlashcardSetDataAccess FlashcardSetDataAccess
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
 
-<div class="center-horizontal">
-    <div class="createflashcardset-container">
-        <h3>Create a flashcard set</h3>
+@code{
+    bool IsInitialized { get; set; }
+    CreateFlashcardSetService createFlashcardSetService;
 
-        <div class="titleinput-container">
-            <div>
-                <h2>Title</h2>
-                <textarea id="title"></textarea>
-            </div>
 
-            <div>
-                <h2>Subject</h2>
-                <textarea id="subject"></textarea>
-            </div>
+    protected override async Task OnInitializedAsync()
+    {
+        createFlashcardSetService = new CreateFlashcardSetService(FlashcardSetDataAccess, localStorage, NavigationManager);
+        IsInitialized = true;
+    }
+}
 
-        </div>
+@if (IsInitialized)
+{
+    <div class="center-horizontal">
+        <div class="createflashcardset-container">
+            <h3 class="createhead">Create a flashcard set</h3>
 
-        <div class="card-container">
-            <h2>Question</h2>
-            <textarea id="question" maxlength="120"></textarea>
-            <h2>Answer</h2>
-            <textarea id="answer" maxlength="600"></textarea>
-            <p>#1</p>
-        </div>
 
-        @foreach(var i in flashcardStack)
-        {
-            <div class="card-container">
-                <h2>Question</h2>
-                <textarea id="question" maxlength="120"></textarea>
-                <h2>Answer</h2>
-                <textarea id="answer" maxlength="600"></textarea>
-                <p>#@cardCount</p>
-            </div>
-        }
+            <EditForm Model="@createFlashcardSetService.flashcardSetModel">
+                <div class="center-horizontal">
+                    <div class="titleinput-container">
+                        <div>
+                            <h2>Title</h2>
+                            <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Title"></InputTextArea>
+                        </div>
 
-        <div class="center-horizontal">
-            <button class="delcard-button" onclick="@DelCard">-</button>
-            <button class="newcard-button" onclick="@NewCard">+</button>
-            <button class="submit-button" onclick="@SubmitSet">✓</button>
+                        <div>
+                            <h2>Subject</h2>
+                            <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Subject"></InputTextArea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="center-horizontal">
+                    @if(createFlashcardSetService.flashcardSetModel.TotalCards > 0 && createFlashcardSetService.flashcardSetModel.CardID > 1)
+                    {
+                        <button class="prevcard2-button" @onclick="@createFlashcardSetService.PreviousCard">&lt;</button>
+                    }
+
+                    <div class="card-container">
+                        <h2>Question</h2>
+                        <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Question" maxlength="120">@createFlashcardSetService.flashcardSetModel.Question</InputTextArea>
+                        <h2>Answer</h2>
+                        <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Answer" maxlength="600">@createFlashcardSetService.flashcardSetModel.Answer</InputTextArea>
+                        <p>#@createFlashcardSetService.flashcardSetModel.CardID</p>
+                    </div>
+
+                    @if (createFlashcardSetService.flashcardSetModel.TotalCards >= createFlashcardSetService.flashcardSetModel.CardID)
+                    {
+                        <button class="nextcard2-button" @onclick="@createFlashcardSetService.NextCard">&gt;</button>
+                    }
+                </div>
+
+                <div class="center-horizontal">
+                    <button class="delcard-button" type="submit" @onclick="@createFlashcardSetService.RemoveCard">-</button>
+                    @if (createFlashcardSetService.flashcardSetModel.CardID <= createFlashcardSetService.flashcardSetModel.TotalCards)
+                    {
+                        <button class="newcard-button" type="submit" @onclick="@createFlashcardSetService.SaveCard">Save Edit</button>
+                    }
+                    else
+                    {
+                        <button class="newcard-button" type="submit" @onclick="@createFlashcardSetService.AddCard">+</button>
+                    }
+                    <button class="submit-button" type="submit" @onclick="@createFlashcardSetService.Submit">✓</button>
+                </div>
+
+                @if (createFlashcardSetService.errorMessage != null)
+                {
+                    <p2 class="error-message center-horizontal">@createFlashcardSetService.errorMessage</p2>
+                }
+            </EditForm>
         </div>
     </div>
-</div>
-
-@code {
-    int cardCount = 1;
-    Stack<string[]> flashcardStack = new Stack<string[]>();
-
-    public void NewCard()
-    {
-        string[] cardDetails = { "2","fdfd" };
-        flashcardStack.Push(cardDetails);
-        cardCount++;
-    }
-
-    public void DelCard()
-    {
-
-    }
-
-    public void SubmitSet()
-    {
-
-    }
 }

@@ -16,12 +16,10 @@
     protected override async Task OnInitializedAsync()
     {
         SessionID = await localStorage.GetItemAsync<string>("SessionID");
-        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, "31");
+        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, "3");
         flashcardSetCircularQueue = new CircularQueueService(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
 
         flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetCurrentElement();
-        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
-        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         IsInitialized = true;
     }
@@ -29,8 +27,6 @@
     public void GetNextCard()
     {
         flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetNextElement();
-        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
-        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         if (cardNo == flashcardSetModel.TotalCards)
         {
@@ -45,8 +41,6 @@
     public void GetPreviousCard()
     {
         flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetPreviousElement();
-        flashcardSetModel.Question = flashcardSetModel.Flashcard[0];
-        flashcardSetModel.Answer = flashcardSetModel.Flashcard[1];
 
         if (cardNo == 1)
         {
@@ -74,11 +68,11 @@
                     <div class="cardflipinner-container">
 
                         <div class="card-front">
-                            <h2>@flashcardSetModel.Question</h2>
+                            <h2>@flashcardSetModel.Flashcard[0]</h2>
                         </div>
         
                         <div class="card-back">
-                            <h2>@flashcardSetModel.Answer</h2>
+                            <h2>@flashcardSetModel.Flashcard[1]</h2>
                         </div>
                     </div>
 
