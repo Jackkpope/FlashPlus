@@ -9,18 +9,24 @@
     string SessionID { get; set; }
     bool IsInitialized { get; set; }
     int pageNo = 1;
+    int pageTotal = 1;
+    int setNo = 0;
 
     FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
-    CircularQueueService flashcardSetsCircularQueue;
 
     protected override async Task OnInitializedAsync()
     {
         SessionID = await localStorage.GetItemAsync<string>("SessionID");
         flashcardSetModel = await FlashcardSetDataAccess.GetAllFlashcardSetsByUserAsync(SessionID);
-        flashcardSetsCircularQueue = new CircularQueueService(flashcardSetModel.FlashcardSets, flashcardSetModel.FlashcardSets.Count);
+
+        Console.WriteLine(flashcardSetModel.FlashcardSets[pageNo-1][0]);
+
+        int pageTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(flashcardSetModel.FlashcardSets.Count / 6)));
 
         IsInitialized = true;
     }
+
+
 }
 
 @if (IsInitialized)
@@ -35,23 +41,34 @@
                 <h3>Flashcard Set Library</h3>
                 <p>/Biology</p>
             </div>
-            
 
-            @for (int i = 0; i != 2; i++)
-            {
-                <div class="set-row">
-                    @for(int o = 0; o != 3; o++)
-                    {
-                        <div class="flashcardset">
-                            <h2>@flashcardSetModel.Title</h2>
-                        </div>
-                    }
+            <div class="set-row">
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[(pageNo-1)*6][0]</h2>
                 </div>
-            }
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[pageNo*6][0]</h2>
+                </div>
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+1)*6][0]</h2>
+                </div>
+            </div>
+
+            <div class="set-row">
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+2)*6][0]</h2>
+                </div>
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+3)*6][0]</h2>
+                </div>
+                <div class="flashcardset">
+                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+4)*6][0]</h2>
+                </div>
+            </div>
 
             <div class="center-horizontal">
                 <button class="nextcard-button">&lt;</button>
-                <p id="card-counter">@pageNo / @flashcardSetModel.FlashcardSets.Count</p>
+                <p id="card-counter">@pageNo / @pageTotal</p>
                 <button class="nextcard-button">&gt;</button>
             </div>
 
