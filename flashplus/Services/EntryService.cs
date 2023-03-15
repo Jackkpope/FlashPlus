@@ -79,6 +79,12 @@ namespace flashplus.Services
             }
         }
 
+        public async Task HandleLogout()
+        {
+            await localStorage.ClearAsync();
+            NavigationManager.NavigateTo("/");
+        }
+
         public async Task<string> RegisterValidation()
         {
 

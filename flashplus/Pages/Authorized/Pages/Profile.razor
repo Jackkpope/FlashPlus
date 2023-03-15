@@ -1,17 +1,24 @@
 ﻿@page "/profile"
 @layout AuthorizedLayout
 
+@inject IEntryDataAccess EntryDataAccess
 @inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<div class="form-container center-horizontal center-vertical">
-    <button class="form-submit center-horizontal center-vertical" onclick="@HandleLogout">Logout</button>
-</div>
-
 @code {
-    public async Task HandleLogout()
+    bool IsInitialized { get; set; }
+    EntryService entryService;
+
+
+    protected override async Task OnInitializedAsync()
     {
-        await localStorage.ClearAsync();
-        NavigationManager.NavigateTo("/");
+        entryService = new EntryService(EntryDataAccess, localStorage, NavigationManager);
+        IsInitialized = true;
     }
+}
+@if(IsInitialized)
+{
+    <div class="form-container center-horizontal center-vertical">
+        <button class="form-submit center-horizontal center-vertical" onclick="@entryService.HandleLogout">Logout</button>
+    </div>
 }

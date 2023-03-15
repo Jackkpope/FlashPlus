@@ -68,6 +68,7 @@ namespace flashplus.Services
             }
             else
             {
+                errorMessage = null;
                 string[] Flashcard = { flashcardSetModel.Question, flashcardSetModel.Answer };
                 flashcardSetModel.Flashcard = Flashcard;
                 flashcardSetModel.Flashcards[flashcardSetModel.CardID - 1] = Flashcard;
