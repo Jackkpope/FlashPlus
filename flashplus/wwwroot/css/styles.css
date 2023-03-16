@@ -667,6 +667,7 @@ p2 {
 
 .set-row {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .flashcardset {
@@ -674,17 +675,27 @@ p2 {
     height: 250px;
     margin: 40px 0px 0px 0px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    text-align: center;
     justify-content: center;
     border-radius: 20px;
     background-color: #ffffff;
+    transition-duration: 0.2s;
 }
 
-    .flashcardset:nth-child(2) {
+    .flashcardset:nth-child(3n-1) {
         margin: 40px 30px 0px 30px;
     }
 
+    .flashcardset:hover {
+        cursor: pointer;
+        transform: scale(1.025);
+        transition-duration: 0.2s;
+    }
+
+    .flashcardset h2{
+        margin-right: 6px;
+    }
 
 .dashboard-container {
     margin: 40px 0px 0px 0px;
@@ -766,8 +777,8 @@ p2 {
 .library-container {
     margin: 40px 0px 0px 0px;
     padding: 40px 50px 40px 50px;
-    width: auto;
-    height: auto;
+    width: 1200px;
+    height: 697px;
     border-radius: 20px;
     background-color: #264653;
 }

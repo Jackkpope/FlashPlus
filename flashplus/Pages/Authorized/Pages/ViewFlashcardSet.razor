@@ -7,16 +7,20 @@
 
 @code{
     string SessionID { get; set; }
+    string SetID { get; set; }
     bool IsInitialized { get; set; }
     int cardNo = 1;
 
-    FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+    FlashcardSetModel flashcardSetModel;
     CircularQueueService flashcardSetCircularQueue;
 
     protected override async Task OnInitializedAsync()
     {
+        flashcardSetModel = new FlashcardSetModel();
+
         SessionID = await localStorage.GetItemAsync<string>("SessionID");
-        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, "3");
+        SetID = await localStorage.GetItemAsync<string>("SetID");
+        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, SetID);
         flashcardSetCircularQueue = new CircularQueueService(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
 
         flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetCurrentElement();

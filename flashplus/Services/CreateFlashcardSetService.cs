@@ -54,7 +54,7 @@ namespace flashplus.Services
 
         public void RemoveCard()
         {
-            if(flashcardSetModel.CardID == 1)
+            if(flashcardSetModel.CardID == flashcardSetModel.TotalCards+1)
             {
                 errorMessage = "Cannot remove card";
             }

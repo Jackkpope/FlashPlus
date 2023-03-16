@@ -24,6 +24,14 @@
         int pageTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(flashcardSetModel.FlashcardSets.Count / 6)));
 
         IsInitialized = true;
+
+
+    }
+
+    public async Task LoadFlashcardSet(int SetID)
+    {
+        await localStorage.SetItemAsync("SetID", SetID);
+        NavigationManager.NavigateTo("/viewflashcardset");
     }
 
 
@@ -41,31 +49,16 @@
 
             <div class="title-container">
                 <h3>Flashcard Set Library</h3>
-                <p>/Biology</p>
             </div>
 
             <div class="set-row">
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[(pageNo-1)*6][0]</h2>
-                </div>
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[pageNo*6][0]</h2>
-                </div>
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+1)*6][0]</h2>
-                </div>
-            </div>
-
-            <div class="set-row">
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+2)*6][0]</h2>
-                </div>
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+3)*6][0]</h2>
-                </div>
-                <div class="flashcardset">
-                    <h2>@flashcardSetModel.FlashcardSets[(pageNo+4)*6][0]</h2>
-                </div>
+                @foreach (var flashcardset in flashcardSetModel.FlashcardSets.Take(6))
+                {
+                    <div class="flashcardset" onclick="@(async () => await LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
+                        <h2>@flashcardset[0] |</h2>
+                        <p>@flashcardset[1]</p>
+                    </div>
+                }
             </div>
 
             <div class="center-horizontal">
