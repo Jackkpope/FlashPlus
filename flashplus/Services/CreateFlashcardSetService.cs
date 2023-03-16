@@ -54,10 +54,18 @@ namespace flashplus.Services
 
         public void RemoveCard()
         {
-            flashcardSetModel.Flashcards.RemoveAt(flashcardSetModel.CardID - 1);
-            flashcardSetModel.TotalCards--;
-            flashcardSetModel.CardID--;
-            NextCard();
+            if(flashcardSetModel.CardID == 1)
+            {
+                errorMessage = "Cannot remove card";
+            }
+            else
+            {
+                errorMessage = null;
+                flashcardSetModel.Flashcards.RemoveAt(flashcardSetModel.CardID - 1);
+                flashcardSetModel.TotalCards--;
+                flashcardSetModel.CardID--;
+                NextCard();
+            }
         }
 
         public void SaveCard()
@@ -101,16 +109,28 @@ namespace flashplus.Services
 
         public async Task Submit()
         {
-            string SessionID = await localStorage.GetItemAsync<string>("SessionID");
-            bool complete = await FlashcardSetDataAccess.SetFlashcardSetDetailsAsync(SessionID, flashcardSetModel);
-
-            if (complete)
+            if(String.IsNullOrEmpty(flashcardSetModel.Title) || String.IsNullOrEmpty(flashcardSetModel.Subject))
             {
-                NavigationManager.NavigateTo("/dashboard");
+                errorMessage = "Title or Subject cannot be left blank";
             }
+            if(flashcardSetModel.Flashcards.Count < 3)
+            {
+                errorMessage = "Must contain at least 3 cards in a set";
+            }
+
             else
             {
-                errorMessage = "There has been an error processing your request, please try again later";
+                string SessionID = await localStorage.GetItemAsync<string>("SessionID");
+                bool complete = await FlashcardSetDataAccess.SetFlashcardSetDetailsAsync(SessionID, flashcardSetModel);
+
+                if (complete)
+                {
+                    NavigationManager.NavigateTo("/dashboard");
+                }
+                else
+                {
+                    errorMessage = "There has been an error processing your request, please try again later";
+                }
             }
         }
     }

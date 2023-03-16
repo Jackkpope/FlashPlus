@@ -2,6 +2,8 @@
 using flashplus.Data;
 using flashplus.Models;
 using Microsoft.AspNetCore.Components;
+using System.Reflection;
+using System.Text;
 
 namespace flashplus.Services
 {
@@ -83,6 +85,24 @@ namespace flashplus.Services
         {
             await localStorage.ClearAsync();
             NavigationManager.NavigateTo("/");
+        }
+
+        public async Task<string> CreatePasswordHash()
+        {
+            string salt = "473827642";
+            string saltedPassword = entryModel.Password + salt;
+            byte[] saltedPasswordInBytes = Encoding.UTF8.GetBytes(saltedPassword);
+
+            int hashValue = 0;
+
+            foreach (var i in saltedPasswordInBytes)
+            {
+                hashValue = (hashValue + i) % 2736;
+            }
+
+            string hashPassword = Convert.ToString(hashValue);
+
+            return hashPassword;
         }
 
         public async Task<string> RegisterValidation()
