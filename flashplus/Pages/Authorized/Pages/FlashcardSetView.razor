@@ -1,4 +1,4 @@
-﻿@page "/viewflashcardset"
+﻿@page "/flashcardset/view"
 @layout AuthorizedLayout
 
 @inject IFlashcardSetDataAccess FlashcardSetDataAccess
@@ -48,7 +48,7 @@
 
         if (cardNo == 1)
         {
-            cardNo = 7;
+            cardNo = flashcardSetModel.TotalCards;
         }
         else
         {

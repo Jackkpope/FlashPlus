@@ -1,4 +1,4 @@
-﻿@page "/flashcardsetlibrary"
+﻿@page "/flashcardset/library"
 @layout AuthorizedLayout
 
 @inject IFlashcardSetDataAccess FlashcardSetDataAccess
@@ -9,8 +9,9 @@
     string SessionID { get; set; }
     bool IsInitialized { get; set; }
     int pageNo = 1;
-    int pageTotal = 1;
+    int pageTotal;
     int setNo = 0;
+    List<string[]> displayedSets;
 
     FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
 
@@ -19,21 +20,58 @@
         SessionID = await localStorage.GetItemAsync<string>("SessionID");
         flashcardSetModel = await FlashcardSetDataAccess.GetAllFlashcardSetsByUserAsync(SessionID);
 
-        Console.WriteLine(flashcardSetModel.FlashcardSets[pageNo-1][0]);
+        pageTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(flashcardSetModel.FlashcardSets.Count) / 6));
 
-        int pageTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(flashcardSetModel.FlashcardSets.Count / 6)));
 
+        Console.WriteLine(pageTotal);
         IsInitialized = true;
 
+        GetDisplayedSets(pageNo);
 
     }
 
     public async Task LoadFlashcardSet(int SetID)
     {
         await localStorage.SetItemAsync("SetID", SetID);
-        NavigationManager.NavigateTo("/viewflashcardset");
+        NavigationManager.NavigateTo("/flashcardset/view");
     }
 
+    public void GetDisplayedSets(int pageNo)
+    {
+        displayedSets = new List<string[]>();
+        foreach(var flashcardset in flashcardSetModel.FlashcardSets.Skip(pageNo-1*6).Take(6))
+        {
+            displayedSets.Add(flashcardset);
+        }
+    }
+
+    public void NextPage()
+    {
+        if (pageNo == pageTotal)
+        {
+            pageNo = 1;
+            GetDisplayedSets(pageNo);
+        }
+        else
+        {
+            pageNo++;
+            GetDisplayedSets(pageNo);
+        }
+    }
+
+    public void PreviousPage()
+    {
+        if (pageNo == 1)
+        {
+            pageNo = pageTotal;
+            GetDisplayedSets(pageNo);
+        }
+        else
+        {
+            pageNo--;
+            GetDisplayedSets(pageNo);
+        }
+    }
 
 
 
@@ -52,7 +90,7 @@
             </div>
 
             <div class="set-row">
-                @foreach (var flashcardset in flashcardSetModel.FlashcardSets.Take(6))
+                @foreach (var flashcardset in displayedSets)
                 {
                     <div class="flashcardset" onclick="@(async () => await LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
                         <h2>@flashcardset[0] |</h2>
@@ -62,9 +100,9 @@
             </div>
 
             <div class="center-horizontal">
-                <button class="nextcard-button">&lt;</button>
+                <button class="nextcard-button" @onclick="@PreviousPage">&lt;</button>
                 <p id="card-counter">@pageNo / @pageTotal</p>
-                <button class="nextcard-button">&gt;</button>
+                <button class="nextcard-button" @onclick="@NextPage">&gt;</button>
             </div>
 
         </div>
