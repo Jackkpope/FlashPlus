@@ -7,12 +7,12 @@ namespace flashplus.Services
 {
     public class CreateFlashcardSetService
     {
-        IFlashcardSetDataAccess FlashcardSetDataAccess;
-        ILocalStorageService localStorage;
-        NavigationManager NavigationManager;
+        private readonly IFlashcardSetDataAccess FlashcardSetDataAccess;
+        private readonly ILocalStorageService localStorage;
+        private readonly NavigationManager NavigationManager;
 
-        public string errorMessage {get; set;}
         public FlashcardSetModel flashcardSetModel;
+        public string errorMessage {get; set;}
 
         public CreateFlashcardSetService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
@@ -24,6 +24,11 @@ namespace flashplus.Services
             flashcardSetModel.TotalCards = 0;
             flashcardSetModel.CardID = 1;
             flashcardSetModel.Flashcards = new List<string[]>();
+        }
+
+        public FlashcardSetModel GetFlashcardSetModel()
+        {
+            return flashcardSetModel;
         }
 
         public void AddCard()
@@ -109,16 +114,9 @@ namespace flashplus.Services
 
         public async Task Submit()
         {
-            if(String.IsNullOrEmpty(flashcardSetModel.Title) || String.IsNullOrEmpty(flashcardSetModel.Subject))
-            {
-                errorMessage = "Title or Subject cannot be left blank";
-            }
-            if(flashcardSetModel.Flashcards.Count < 3)
-            {
-                errorMessage = "Must contain at least 3 cards in a set";
-            }
+            ValidateSubmit();
 
-            else
+            if (String.IsNullOrEmpty(errorMessage))
             {
                 string SessionID = await localStorage.GetItemAsync<string>("SessionID");
                 bool complete = await FlashcardSetDataAccess.SetFlashcardSetDetailsAsync(SessionID, flashcardSetModel);
@@ -131,6 +129,22 @@ namespace flashplus.Services
                 {
                     errorMessage = "There has been an error processing your request, please try again later";
                 }
+            }
+        }
+
+        private void ValidateSubmit()
+        {
+            if (String.IsNullOrEmpty(flashcardSetModel.Title) || String.IsNullOrEmpty(flashcardSetModel.Subject))
+            {
+                errorMessage = "Title or Subject cannot be left blank";
+            }
+            if (flashcardSetModel.Flashcards.Count < 3)
+            {
+                errorMessage = "Must contain at least 3 cards in a set";
+            }
+            else
+            {
+                errorMessage = null;
             }
         }
     }

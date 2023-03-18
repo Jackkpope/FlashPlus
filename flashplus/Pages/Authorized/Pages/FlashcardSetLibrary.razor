@@ -39,9 +39,10 @@
     public void GetDisplayedSets(int pageNo)
     {
         displayedSets = new List<string[]>();
-        foreach(var flashcardset in flashcardSetModel.FlashcardSets.Skip(pageNo-1*6).Take(6))
+        foreach(string[] flashcardSet in flashcardSetModel.FlashcardSets.Skip((pageNo-1)*6).Take(6))
         {
-            displayedSets.Add(flashcardset);
+            displayedSets.Add(flashcardSet);
+            Console.WriteLine(flashcardSet[0]);
         }
     }
 
@@ -50,13 +51,13 @@
         if (pageNo == pageTotal)
         {
             pageNo = 1;
-            GetDisplayedSets(pageNo);
         }
         else
         {
             pageNo++;
-            GetDisplayedSets(pageNo);
         }
+        GetDisplayedSets(pageNo);
+
     }
 
     public void PreviousPage()
@@ -64,13 +65,13 @@
         if (pageNo == 1)
         {
             pageNo = pageTotal;
-            GetDisplayedSets(pageNo);
         }
         else
         {
             pageNo--;
-            GetDisplayedSets(pageNo);
         }
+
+        GetDisplayedSets(pageNo);
     }
 
 

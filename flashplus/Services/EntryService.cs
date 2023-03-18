@@ -9,12 +9,12 @@ namespace flashplus.Services
 {
     public class EntryService
     {
-        IEntryDataAccess EntryDataAccess;
-        ILocalStorageService localStorage;
-        NavigationManager NavigationManager;
-
-        public string errorMessage { get; set; }
+        private readonly IEntryDataAccess EntryDataAccess;
+        private readonly ILocalStorageService localStorage;
+        private readonly NavigationManager NavigationManager;
+        
         public EntryModel entryModel;
+        public string errorMessage { get; set; }
 
         public EntryService(IEntryDataAccess entryDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
@@ -23,6 +23,8 @@ namespace flashplus.Services
             NavigationManager = navigationManager;
             entryModel = new EntryModel();
         }
+
+        
 
         public async Task HandleLogin()
         {
@@ -87,7 +89,7 @@ namespace flashplus.Services
             NavigationManager.NavigateTo("/");
         }
 
-        public async Task<string> CreatePasswordHash()
+        private async Task<string> CreatePasswordHash()
         {
             string salt = "473827642";
             string saltedPassword = entryModel.Password + salt;
@@ -105,7 +107,7 @@ namespace flashplus.Services
             return hashPassword;
         }
 
-        public async Task<string> RegisterValidation()
+        private async Task<string> RegisterValidation()
         {
 
             if (String.IsNullOrEmpty(entryModel.Username) || String.IsNullOrEmpty(entryModel.Password) || String.IsNullOrEmpty(entryModel.ConfirmPassword))
