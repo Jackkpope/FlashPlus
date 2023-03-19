@@ -1,52 +1,49 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace flashplus.Services
 {
-    public class CircularQueueService
+    public class CircularQueueService<T>
     {
-        private List<string[]> CircularQueue = new List<string[]>();
+        private T[] circularQueue; //'T' can store any type of data making it flexible to different scenarios
         private int front;
         private int back;
         private string[] currentElement;
-        private string[] newElement;
 
-        public CircularQueueService(List<string[]> List, int count)
+        public CircularQueueService(T[] elements, int total)
         {
+            circularQueue = new T[total];
             front = 0;
-            back = count - 1;
+            back = 0;
 
-            foreach (var i in List)
+            IntitializeQueue(elements);
+        }
+
+        public void IntitializeQueue(T[] elements)
+        {
+            foreach(var element in elements)
             {
-                CircularQueue.Add(i);
+                Enqueue(element);
+                back++;
             }
         }
 
-        public string[] GetCurrentElement()
+        public void Enqueue(T element) //Adds an element to the back of the Queue
         {
-            currentElement = CircularQueue [front];
+            circularQueue[back] = element;
+        }
+
+        public T Dequeue() //Removes the element at the front of the queue and then enqueues it 
+        {
+            T currentElement = circularQueue[front];
+
+            for(int i = 0; i != circularQueue.Length; i++)
+            {
+                circularQueue[i] = circularQueue[i + 1];
+            }
+
+            Enqueue(currentElement);
             return currentElement;
-        }
-
-        public string[] GetNextElement()
-        {
-            currentElement = CircularQueue[front];
-            CircularQueue.RemoveAt(front);
-            CircularQueue.Add(currentElement);
-
-            newElement = CircularQueue[front];
-
-            return newElement;
-        }
-
-        public string[] GetPreviousElement()
-        {
-            newElement = CircularQueue[back];
-
-            currentElement = CircularQueue[back];
-            CircularQueue.RemoveAt(back);
-            CircularQueue.Insert(0, currentElement);
-
-            return newElement;
         }
     }
 }
