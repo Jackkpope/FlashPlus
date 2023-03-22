@@ -6,74 +6,16 @@
 @inject NavigationManager NavigationManager
 
 @code{
-    string SessionID { get; set; }
-    bool IsInitialized { get; set; }
-    int pageNo = 1;
-    int pageTotal;
-    int setNo = 0;
-    List<string[]> displayedSets;
+    bool IsInitialized;
 
-    FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+    FlashcardSetLibraryService flashcardSetLibraryService;
 
     protected override async Task OnInitializedAsync()
     {
-        SessionID = await localStorage.GetItemAsync<string>("SessionID");
-        flashcardSetModel = await FlashcardSetDataAccess.GetAllFlashcardSetsByUserAsync(SessionID);
-
-        pageTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(flashcardSetModel.FlashcardSets.Count) / 6));
-
-
-        Console.WriteLine(pageTotal);
+        flashcardSetLibraryService = new FlashcardSetLibraryService(FlashcardSetDataAccess, localStorage, NavigationManager);
+        await flashcardSetLibraryService.AccessInitiliazeLibrary();
         IsInitialized = true;
-
-        GetDisplayedSets(pageNo);
-
     }
-
-    public async Task LoadFlashcardSet(int SetID)
-    {
-        await localStorage.SetItemAsync("SetID", SetID);
-        NavigationManager.NavigateTo("/flashcardset/view");
-    }
-
-    public void GetDisplayedSets(int pageNo)
-    {
-        displayedSets = new List<string[]>();
-        foreach(string[] flashcardSet in flashcardSetModel.FlashcardSets.Skip((pageNo-1)*6).Take(6))
-        {
-            displayedSets.Add(flashcardSet);
-            Console.WriteLine(flashcardSet[0]);
-        }
-    }
-
-    public void NextPage()
-    {
-        if (pageNo == pageTotal)
-        {
-            pageNo = 1;
-        }
-        else
-        {
-            pageNo++;
-        }
-        GetDisplayedSets(pageNo);
-
-    }
-
-    public void PreviousPage()
-    {
-        if (pageNo == 1)
-        {
-            pageNo = pageTotal;
-        }
-        else
-        {
-            pageNo--;
-        }
-
-        GetDisplayedSets(pageNo);
-    }
-
 
 
 }
@@ -89,22 +31,28 @@
             <div class="title-container">
                 <h3>Flashcard Set Library</h3>
             </div>
+            @if (flashcardSetLibraryService.totalPageNo != 0)
+            {
+                <div class="set-row">
+                    @foreach (var flashcardset in flashcardSetLibraryService.displayedSets)
+                    {
+                        <div class="flashcardset" @onclick="(async () => await flashcardSetLibraryService.LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
+                            <h2>@flashcardset[0] |</h2>
+                            <p>@flashcardset[1]</p>
+                        </div>
+                    }
+                </div>
 
-            <div class="set-row">
-                @foreach (var flashcardset in displayedSets)
-                {
-                    <div class="flashcardset" onclick="@(async () => await LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
-                        <h2>@flashcardset[0] |</h2>
-                        <p>@flashcardset[1]</p>
-                    </div>
-                }
-            </div>
-
-            <div class="center-horizontal">
-                <button class="nextcard-button" @onclick="@PreviousPage">&lt;</button>
-                <p id="card-counter">@pageNo / @pageTotal</p>
-                <button class="nextcard-button" @onclick="@NextPage">&gt;</button>
-            </div>
+                <div class="center-horizontal">
+                    <button class="nextcard-button" @onclick="@flashcardSetLibraryService.PreviousPage">&lt;</button>
+                    <p id="card-counter">@flashcardSetLibraryService.currentPageNo / @flashcardSetLibraryService.totalPageNo</p>
+                    <button class="nextcard-button" @onclick="@flashcardSetLibraryService.NextPage">&gt;</button>
+                </div>
+            }
+            else
+            {
+                <p>No flashcard sets found</p>
+            }
 
         </div>
 

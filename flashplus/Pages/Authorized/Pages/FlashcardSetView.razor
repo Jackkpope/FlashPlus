@@ -6,54 +6,15 @@
 @inject NavigationManager NavigationManager
 
 @code{
-    string SessionID { get; set; }
-    string SetID { get; set; }
-    bool IsInitialized { get; set; }
-    int cardNo = 1;
+    bool IsInitialized;
 
-    FlashcardSetModel flashcardSetModel;
-    CircularQueueService flashcardSetCircularQueue;
+    FlashcardSetViewService flashcardSetViewService;
 
     protected override async Task OnInitializedAsync()
     {
-        flashcardSetModel = new FlashcardSetModel();
-
-        SessionID = await localStorage.GetItemAsync<string>("SessionID");
-        SetID = await localStorage.GetItemAsync<string>("SetID");
-        flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, SetID);
-        flashcardSetCircularQueue = new CircularQueueService(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
-
-        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetCurrentElement();
-
+        flashcardSetViewService = new FlashcardSetViewService(FlashcardSetDataAccess, localStorage, NavigationManager);
+        await flashcardSetViewService.AccessInitiliazeView();
         IsInitialized = true;
-    }
-
-    public void GetNextCard()
-    {
-        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetNextElement();
-
-        if (cardNo == flashcardSetModel.TotalCards)
-        {
-            cardNo = 1;
-        }
-        else
-        {
-            cardNo++;
-        }
-    }
-
-    public void GetPreviousCard()
-    {
-        flashcardSetModel.Flashcard = flashcardSetCircularQueue.GetPreviousElement();
-
-        if (cardNo == 1)
-        {
-            cardNo = flashcardSetModel.TotalCards;
-        }
-        else
-        {
-            cardNo--;
-        }
     }
 }
 
@@ -64,32 +25,32 @@
     <div class="center-horizontal">
         <div class="viewflashcardset-container">
             <div class="set-container">
-                <h3>@flashcardSetModel.Title</h3>
-                <h2>@flashcardSetModel.Subject</h2>
+                <h3>@flashcardSetViewService.flashcardSetModel.Title</h3>
+                <h2>@flashcardSetViewService.flashcardSetModel.Subject</h2>
         
                 <div class="cardflip-container">
 
                     <div class="cardflipinner-container">
 
                         <div class="card-front">
-                            <h2>@flashcardSetModel.Flashcard[0]</h2>
+                            <h2>@flashcardSetViewService.flashcardSetModel.Flashcard[0]</h2>
                         </div>
         
                         <div class="card-back">
-                            <h2>@flashcardSetModel.Flashcard[1]</h2>
+                            <h2>@flashcardSetViewService.flashcardSetModel.Flashcard[1]</h2>
                         </div>
                     </div>
 
                 </div>
                 
                 <div class="center-horizontal">
-                    <button class="nextcard-button" onclick="@GetPreviousCard">&lt;</button>
-                    <p id="card-counter">@cardNo / @flashcardSetModel.TotalCards</p>
-                    <button class="nextcard-button" onclick="@GetNextCard">&gt;</button>
+                    <button class="nextcard-button" @onclick="@flashcardSetViewService.GetPreviousCard">&lt;</button>
+                    <p id="card-counter">@flashcardSetViewService.currentCardNo / @flashcardSetViewService.flashcardSetModel.TotalCards</p>
+                    <button class="nextcard-button" @onclick="@flashcardSetViewService.GetNextCard">&gt;</button>
                 </div>
 
                 <div>
-                    <h2>Created by @flashcardSetModel.CreatedUsername</h2>
+                    <h2>Created by @flashcardSetViewService.flashcardSetModel.CreatedUsername</h2>
                 </div>
 
 

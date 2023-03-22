@@ -89,20 +89,17 @@ namespace flashplus.Services
             NavigationManager.NavigateTo("/");
         }
 
-        private async Task<string> CreatePasswordHash()
+        private async Task<string> CreatePasswordHash(string password)
         {
-            string salt = "473827642";
-            string saltedPassword = entryModel.Password + salt;
-            byte[] saltedPasswordInBytes = Encoding.UTF8.GetBytes(saltedPassword);
+            int i = 0;
+            string hashPassword = null;
 
-            int hashValue = 0;
-
-            foreach (var i in saltedPasswordInBytes)
+            foreach(char character in password)
             {
-                hashValue = (hashValue + i) % 2736;
+                char hashValue = Convert.ToChar((Convert.ToInt32(character)+i) % 365);
+                i++;
+                hashPassword += hashValue;
             }
-
-            string hashPassword = Convert.ToString(hashValue);
 
             return hashPassword;
         }

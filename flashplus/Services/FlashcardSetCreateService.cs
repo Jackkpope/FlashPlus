@@ -1,20 +1,21 @@
 ﻿using Blazored.LocalStorage;
 using flashplus.Data;
 using flashplus.Models;
+using flashplus.Pages.Authorized.Pages;
 using Microsoft.AspNetCore.Components;
 
 namespace flashplus.Services
 {
-    public class CreateFlashcardSetService
+    public class FlashcardSetCreateService
     {
         private readonly IFlashcardSetDataAccess FlashcardSetDataAccess;
         private readonly ILocalStorageService localStorage;
         private readonly NavigationManager NavigationManager;
 
         public FlashcardSetModel flashcardSetModel;
-        public string errorMessage {get; set;}
+        public string errorMessage;
 
-        public CreateFlashcardSetService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
+        public FlashcardSetCreateService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
             FlashcardSetDataAccess = flashcardSetDataAccess;
             this.localStorage = localStorage;
@@ -59,7 +60,7 @@ namespace flashplus.Services
 
         public void RemoveCard()
         {
-            if(flashcardSetModel.CardID == flashcardSetModel.TotalCards+1)
+            if (flashcardSetModel.CardID == flashcardSetModel.TotalCards + 1)
             {
                 errorMessage = "Cannot remove card";
             }

@@ -6,13 +6,13 @@
 @inject NavigationManager NavigationManager
 
 @code{
-    bool IsInitialized { get; set; }
-    CreateFlashcardSetService createFlashcardSetService;
+    bool IsInitialized;
+    FlashcardSetCreateService flashcardSetCreateService;
 
 
     protected override async Task OnInitializedAsync()
     {
-        createFlashcardSetService = new CreateFlashcardSetService(FlashcardSetDataAccess, localStorage, NavigationManager);
+        flashcardSetCreateService = new FlashcardSetCreateService(FlashcardSetDataAccess, localStorage, NavigationManager);
         IsInitialized = true;
     }
 }
@@ -24,58 +24,58 @@
             <h3 class="createhead">Create a flashcard set</h3>
 
 
-            <EditForm Model="@createFlashcardSetService.flashcardSetModel">
+            <EditForm Model="@flashcardSetCreateService.flashcardSetModel">
                 <div class="center-horizontal">
                     <div class="titleinput-container">
                         <div>
                             <h2>Title</h2>
-                            <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Title"></InputTextArea>
+                            <InputTextArea class="textarea" @bind-Value="@flashcardSetCreateService.flashcardSetModel.Title"></InputTextArea>
                         </div>
 
                         <div>
                             <h2>Subject</h2>
-                            <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Subject"></InputTextArea>
+                            <InputTextArea class="textarea" @bind-Value="@flashcardSetCreateService.flashcardSetModel.Subject"></InputTextArea>
                         </div>
 
                     </div>
                 </div>
 
                 <div class="center-horizontal">
-                    @if(createFlashcardSetService.flashcardSetModel.TotalCards > 0 && createFlashcardSetService.flashcardSetModel.CardID > 1)
+                    @if(flashcardSetCreateService.flashcardSetModel.TotalCards > 0 && flashcardSetCreateService.flashcardSetModel.CardID > 1)
                     {
-                        <button class="prevcard2-button" @onclick="@createFlashcardSetService.PreviousCard">&lt;</button>
+                        <button class="prevcard2-button" @onclick="@flashcardSetCreateService.PreviousCard">&lt;</button>
                     }
 
                     <div class="card-container">
                         <h2>Question</h2>
-                        <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Question" maxlength="120">@createFlashcardSetService.flashcardSetModel.Question</InputTextArea>
+                        <InputTextArea class="textarea" @bind-Value="@flashcardSetCreateService.flashcardSetModel.Question" maxlength="120">@flashcardSetCreateService.flashcardSetModel.Question</InputTextArea>
                         <h2>Answer</h2>
-                        <InputTextArea class="textarea" @bind-Value="@createFlashcardSetService.flashcardSetModel.Answer" maxlength="600">@createFlashcardSetService.flashcardSetModel.Answer</InputTextArea>
-                        <p>#@createFlashcardSetService.flashcardSetModel.CardID</p>
+                        <InputTextArea class="textarea" @bind-Value="@flashcardSetCreateService.flashcardSetModel.Answer" maxlength="600">@flashcardSetCreateService.flashcardSetModel.Answer</InputTextArea>
+                        <p>#@flashcardSetCreateService.flashcardSetModel.CardID</p>
                     </div>
 
-                    @if (createFlashcardSetService.flashcardSetModel.TotalCards >= createFlashcardSetService.flashcardSetModel.CardID)
+                    @if (flashcardSetCreateService.flashcardSetModel.TotalCards >= flashcardSetCreateService.flashcardSetModel.CardID)
                     {
-                        <button class="nextcard2-button" @onclick="@createFlashcardSetService.NextCard">&gt;</button>
+                        <button class="nextcard2-button" @onclick="@flashcardSetCreateService.NextCard">&gt;</button>
                     }
                 </div>
 
                 <div class="center-horizontal">
-                    <button class="delcard-button" type="submit" @onclick="@createFlashcardSetService.RemoveCard">-</button>
-                    @if (createFlashcardSetService.flashcardSetModel.CardID <= createFlashcardSetService.flashcardSetModel.TotalCards)
+                    <button class="delcard-button" type="submit" @onclick="@flashcardSetCreateService.RemoveCard">-</button>
+                    @if (flashcardSetCreateService.flashcardSetModel.CardID <= flashcardSetCreateService.flashcardSetModel.TotalCards)
                     {
-                        <button class="newcard-button" type="submit" @onclick="@createFlashcardSetService.SaveCard">Save Edit</button>
+                        <button class="newcard-button" type="submit" @onclick="@flashcardSetCreateService.SaveCard">Save Edit</button>
                     }
                     else
                     {
-                        <button class="newcard-button" type="submit" @onclick="@createFlashcardSetService.AddCard">+</button>
+                        <button class="newcard-button" type="submit" @onclick="@flashcardSetCreateService.AddCard">+</button>
                     }
-                    <button class="submit-button" type="submit" @onclick="@createFlashcardSetService.Submit">✓</button>
+                    <button class="submit-button" type="submit" @onclick="@flashcardSetCreateService.Submit">✓</button>
                 </div>
 
-                @if (createFlashcardSetService.errorMessage != null)
+                @if (flashcardSetCreateService.errorMessage != null)
                 {
-                    <p2 class="error-message center-horizontal">@createFlashcardSetService.errorMessage</p2>
+                    <p2 class="error-message center-horizontal">@flashcardSetCreateService.errorMessage</p2>
                 }
             </EditForm>
         </div>
