@@ -37,8 +37,8 @@ namespace flashplus.Services
 
                     if (userModel.ID != 0)
                     {
-                        await localStorage.SetItemAsync("SessionID", userModel.ID);
-                        await localStorage.SetItemAsync("Username", userModel.Username);
+                        await localStorage.SetItemAsync("SessionID", userModel.ID); //stores the users ID in local storage
+                        await localStorage.SetItemAsync("Username", userModel.Username); //stores the users username in local storage
                         NavigationManager.NavigateTo("/dashboard"); //redirects user to the user dashboard
                     }
                     else
@@ -71,7 +71,7 @@ namespace flashplus.Services
 
                 if (complete == true)
                 {
-                    NavigationManager.NavigateTo("login");
+                    NavigationManager.NavigateTo("login"); //redirects user to the login page
                 }
                 else
                 {

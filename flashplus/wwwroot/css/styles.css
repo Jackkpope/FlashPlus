@@ -590,8 +590,8 @@ p2 {
 .LHS-container {
     margin: 40px 0px 0px 180px;
     padding: 0px 50px 40px 50px;
-    width: fit-content;
-    height: auto;
+    width: 1200px;
+    height: 762px;
     border-radius: 20px;
     background-color: #264653;
 }
@@ -634,7 +634,7 @@ p2 {
         margin: 20px 20px 20px 200px;
     }
 
-    .searchbar textarea {
+    .searchbar .textarea {
         width: 500px;
         height: 30px;
         margin: 0px 40px 0px 0px;

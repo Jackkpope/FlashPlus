@@ -19,61 +19,69 @@
 @if (IsInitialized)
 {
     <div class="center-horizontal">
-        <div class="searchflashcardset-container">
 
-            <div class="LHS-container">
-                <div class="set-row">
-                    <div class="searchbar center-horizontal">
-                        <textarea></textarea>
-                        <button class="search-button">Search</button>
+        <EditForm Model="@flashcardSetSearchService.searchModel">
+
+            <div class="searchflashcardset-container">
+                <div class="LHS-container">
+                    <div class="set-row">
+                        <div class="searchbar center-horizontal">
+                            <InputTextArea class="textarea" @bind-value="@flashcardSetSearchService.searchModel.Search" ValueExpression="@(() => flashcardSetSearchService.searchModel.Search)" />
+                            <button class ="search-button" type="submit" @onclick="@flashcardSetSearchService.SubmitSearch">Search</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="set-row">
-                    <!--
-                    @foreach (var flashcardset in flashcardSetSearchService.displayedSets)
+                    @if (flashcardSetSearchService.search)
                     {
-                        <div class="flashcardset" @onclick="(async () => await flashcardSetSearchService.LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
-                            <h2>@flashcardset[0] |</h2>
-                            <p>@flashcardset[1]</p>
-                        </div>
+                    <div class="set-row">
+                        @foreach (var flashcardset in flashcardSetSearchService.displayedSets)
+                        {
+                            <div class="flashcardset" @onclick="(async () => await flashcardSetSearchService.LoadFlashcardSet(Convert.ToInt32(flashcardset[2])))">
+                                <h2>@flashcardset[0] |</h2>
+                                <p>@flashcardset[1]</p>
+                            </div>
+                        }
+                    </div>
                     }
-                    -->
+                    else
+                    {
+                        <p>Make a search</p>
+                    }
+
+                    <div class="center-horizontal">
+                        <button @onclick="@flashcardSetSearchService.PreviousPage" class="nextcard-button">&lt;</button>
+                        <p id="card-counter">@flashcardSetSearchService.currentPageNo / @flashcardSetSearchService.totalPageNo</p>
+                        <button @onclick="@flashcardSetSearchService.NextPage" class="nextcard-button">&gt;</button>
+                    </div>
                 </div>
 
-                <div class="center-horizontal">
-                    <button class="nextcard-button">&lt;</button>
-                    <p id="card-counter">1 / 12</p>
-                    <button class="nextcard-button">&gt;</button>
+                <div class="RHS-container">
+                    <div class="searchoptions-container">
+                        <div class="options-container">
+                            <h1>Sort</h1>
+                            <div class="option">
+                                <label for="Alphabetical">A to Z</label><br>
+                                <input id="Alphabetical" type="checkbox">
+                            </div>
+                            <div class="option">
+                                <label for="Alphabetical">Z to A</label><br>
+                                <input id="AlphabeticalInvert" type="checkbox">
+                            </div>
+                            <div class="option">
+                                <label for="Age">Newest to Oldest</label><br>
+                                <input id="Age" type="checkbox">
+                            </div>
+                        </div>
+
+                        <div class="options-container">
+                            <h1>Filter</h1>
+                        </div>
+
+                        <button class="search-button2">Apply</button>
+                    </div>
                 </div>
             </div>
-
-            <div class="RHS-container">
-                <div class="searchoptions-container">
-                    <div class="options-container">
-                        <h1>Sort</h1>
-                        <div class="option">
-                            <label for="Alphabetical">A to Z</label><br>
-                            <input id="Alphabetical" type="checkbox">
-                        </div>
-                        <div class="option">
-                            <label for="Alphabetical">Z to A</label><br>
-                            <input id="AlphabeticalInvert" type="checkbox">
-                        </div>
-                        <div class="option">
-                            <label for="Age">Newest to Oldest</label><br>
-                            <input id="Age" type="checkbox">
-                        </div>
-                    </div>
-
-                    <div class="options-container">
-                        <h1>Filter</h1>
-                    </div>
-
-                    <button class="search-button2">Apply</button>
-                </div>
-            </div>
-        </div>
+        </EditForm>
     </div>
 }
 

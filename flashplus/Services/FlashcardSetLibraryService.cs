@@ -13,7 +13,7 @@ namespace flashplus.Services
         private readonly ILocalStorageService localStorage;
         private readonly NavigationManager NavigationManager;
 
-        FlashcardSetModel flashcardSetModel;
+        public FlashcardSetModel flashcardSetModel;
 
         public List<string[]> displayedSets;
         public int currentPageNo;
@@ -62,7 +62,7 @@ namespace flashplus.Services
             {
                 currentPageNo++;
             }
-            DisplayedSets();
+            GetDisplayedSets();
         }
 
         public void PreviousPage()
@@ -76,7 +76,7 @@ namespace flashplus.Services
             {
                 currentPageNo--;
             }
-            DisplayedSets();
+            GetDisplayedSets();
 
         }
 

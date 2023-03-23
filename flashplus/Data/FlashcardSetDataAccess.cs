@@ -7,6 +7,8 @@ namespace flashplus.Data
     {
         Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string ID, string SetID);
         Task<FlashcardSetModel> GetAllFlashcardSetsByUserAsync(string ID);
+        Task<FlashcardSetModel> GetAllFlashcardSetsByTitleAsync(string Title);
+        Task<FlashcardSetModel> GetAllFlashcardSetsBySubjectAsync(string Subject);
         Task<bool> SetFlashcardSetDetailsAsync(string ID, FlashcardSetModel flashcardSetModel);
     }
 
@@ -91,9 +93,9 @@ namespace flashplus.Data
                     flashcardSetModel.Subject = (string)reader["Subject"];
                     flashcardSetModel.SetID = (int)reader["SetID"];
 
-                    string[] FlashcardSets = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID) };
+                    string[] FlashcardSet = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID) };
 
-                    flashcardSetModel.FlashcardSets.Add(FlashcardSets);
+                    flashcardSetModel.FlashcardSets.Add(FlashcardSet);
                 }
 
                 return flashcardSetModel;
@@ -153,6 +155,66 @@ namespace flashplus.Data
 
                 return true;
 
+            }
+        }
+
+        public async Task<FlashcardSetModel> GetAllFlashcardSetsByTitleAsync(string Title)
+        {
+            FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+
+            await using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                string queryString = @"SELECT Subject, SetID FROM FlashcardSets WHERE SetName=?;";
+                OleDbCommand command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("SetName", Title);
+                OleDbDataReader reader = command.ExecuteReader();
+
+                flashcardSetModel.FlashcardSets = new List<string[]> { };
+
+                while (reader.Read())
+                {
+                    flashcardSetModel.Title = Title;
+                    flashcardSetModel.Subject = (string)reader["Subject"];
+                    flashcardSetModel.SetID = (int)reader["SetID"];
+
+                    string[] FlashcardSet = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID) };
+
+                    flashcardSetModel.FlashcardSets.Add(FlashcardSet);
+                }
+
+                return flashcardSetModel;
+            }
+        }
+
+        public async Task<FlashcardSetModel> GetAllFlashcardSetsBySubjectAsync(string Subject)
+        {
+            FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
+
+            await using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                string queryString = @"SELECT SetName, SetID FROM FlashcardSets WHERE Subject=?;";
+                OleDbCommand command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("Subject", Subject);
+                OleDbDataReader reader = command.ExecuteReader();
+
+                flashcardSetModel.FlashcardSets = new List<string[]> { };
+
+                while (reader.Read())
+                {
+                    flashcardSetModel.Title = (string)reader["SetName"];
+                    flashcardSetModel.Subject = Subject;
+                    flashcardSetModel.SetID = (int)reader["SetID"];
+
+                    string[] FlashcardSet = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID) };
+
+                    flashcardSetModel.FlashcardSets.Add(FlashcardSet);
+                }
+
+                return flashcardSetModel;
             }
         }
     }
