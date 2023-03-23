@@ -15,7 +15,6 @@ namespace flashplus.Models
         public int TotalCards { get; set; }
         public int CardID { get; set; }
         public int SetID { get; set; }
-        public DateTime DateCreated { get; set; }
 
         //Model used to store and show data for flashcard sets
 

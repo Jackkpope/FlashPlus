@@ -12,8 +12,6 @@ namespace flashplus.Services
         private readonly NavigationManager NavigationManager;
 
         public FlashcardSetModel flashcardSetModel;
-        private CircularQueueService flashcardSetCircularQueue;
-
         public int currentCardNo;
 
         public FlashcardSetViewService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
@@ -36,11 +34,8 @@ namespace flashplus.Services
             string SetID = await localStorage.GetItemAsync<string>("SetID");
 
             flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, SetID);
-            flashcardSetCircularQueue = new CircularQueueService(flashcardSetModel.Flashcards, flashcardSetModel.TotalCards);
-
-            flashcardSetCircularQueue.GetCurrentElement();
-            flashcardSetModel.Flashcard = flashcardSetCircularQueue.currentElement;
             currentCardNo = 1;
+            flashcardSetModel.Flashcard = flashcardSetModel.Flashcards[0];
         }
 
         public void GetNextCard()
@@ -54,8 +49,7 @@ namespace flashplus.Services
                 currentCardNo++;
             }
 
-            flashcardSetCircularQueue.GetNextElement();
-            flashcardSetModel.Flashcard = flashcardSetCircularQueue.currentElement;
+            flashcardSetModel.Flashcard = flashcardSetModel.Flashcards[currentCardNo - 1];
         }
 
         public void GetPreviousCard()
@@ -69,8 +63,8 @@ namespace flashplus.Services
                 currentCardNo--;
             }
 
-            flashcardSetCircularQueue.GetPreviousElement();
-            flashcardSetModel.Flashcard = flashcardSetCircularQueue.currentElement;
+            flashcardSetModel.Flashcard = flashcardSetModel.Flashcards[currentCardNo - 1];
+
         }
     }
 }

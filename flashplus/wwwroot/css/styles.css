@@ -364,7 +364,7 @@ p2 {
 }
 
 .createflashcardset-container {
-    margin: 40px 0px 40px 0px;
+    margin: 40px 0px 0px 0px;
     padding: 5px 50px 20px 50px;
     width: 900px;
     height: auto;
@@ -610,7 +610,7 @@ p2 {
 .options-container {
     width: 200px;
     height: auto;
-    padding: 0px 0px 40px 20px;
+    padding: 0px 20px 20px 20px;
     margin: 20px 20px 20px 20px;
     border-radius: 20px;
     background-color: #ffffff;
@@ -634,7 +634,7 @@ p2 {
         margin: 20px 20px 20px 200px;
     }
 
-    .searchbar .textarea {
+    .searchbar textarea {
         width: 500px;
         height: 30px;
         margin: 0px 40px 0px 0px;
@@ -657,7 +657,20 @@ p2 {
     transition-duration: 0.2s;
 }
 
-    .search-button:hover {
+.search-button2 {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 20px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 240px;
+    height: 40px;
+    margin: 20px;
+    transition-duration: 0.2s;
+}
+
+    .search-button:hover, .search-button2:hover {
         cursor: pointer;
         color: #ffffff;
         background-color: #e9c46a;

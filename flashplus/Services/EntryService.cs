@@ -32,13 +32,14 @@ namespace flashplus.Services
             {
                 try
                 {
+                    entryModel.PasswordHash = CreatePasswordHash(entryModel.Password);
                     UserModel userModel = await EntryDataAccess.GetUserDetailsAsync(entryModel);
 
                     if (userModel.ID != 0)
                     {
                         await localStorage.SetItemAsync("SessionID", userModel.ID);
                         await localStorage.SetItemAsync("Username", userModel.Username);
-                        NavigationManager.NavigateTo("/dashboard");
+                        NavigationManager.NavigateTo("/dashboard"); //redirects user to the user dashboard
                     }
                     else
                     {
@@ -89,16 +90,22 @@ namespace flashplus.Services
             NavigationManager.NavigateTo("/");
         }
 
-        private async Task<string> CreatePasswordHash(string password)
+        private string CreatePasswordHash(string password)
         {
-            int i = 0;
+            int i = 8;
             string hashPassword = null;
 
-            foreach(char character in password)
+            foreach (char character in password)
             {
-                char hashValue = Convert.ToChar((Convert.ToInt32(character)+i) % 365);
-                i++;
-                hashPassword += hashValue;
+                char hashValue = Convert.ToChar(Convert.ToInt32(character*17) % 257); //converts a character into its ascii value multiplies it by 17 then MODS it by 257
+                hashPassword += hashValue; //each character is added to the string
+            }
+            Console.WriteLine(hashPassword);
+            Console.WriteLine(hashPassword.Length);
+
+            if(hashPassword == "K%kG¯kG?>Oq/")
+            {
+                Console.WriteLine("true");
             }
 
             return hashPassword;

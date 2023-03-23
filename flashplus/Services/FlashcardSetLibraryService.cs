@@ -62,12 +62,12 @@ namespace flashplus.Services
             {
                 currentPageNo++;
             }
-            GetDisplayedSets();
-
+            DisplayedSets();
         }
 
         public void PreviousPage()
         {
+
             if (currentPageNo == 1)
             {
                 currentPageNo = totalPageNo;
@@ -76,23 +76,24 @@ namespace flashplus.Services
             {
                 currentPageNo--;
             }
-            GetDisplayedSets();
+            DisplayedSets();
+
         }
 
         private void DisplayedSets()
         {
             displayedSets = new List<string[]>();
-            foreach (string[] flashcardSet in flashcardSetModel.FlashcardSets.Skip((currentPageNo - 1) * 6).Take(6))
+
+            foreach (var flashcardset in flashcardSetModel.FlashcardSets.Skip((currentPageNo - 1) * 6).Take(6)) //skips the pageNo*6 and takes the next 6 values that follow
             {
-                displayedSets.Add(flashcardSet);
-                Console.WriteLine(flashcardSet[0]);
+                displayedSets.Add(flashcardset);
             }
         }
 
         private async Task FlashcardSet(int SetID)
         {
-            await localStorage.SetItemAsync("SetID", SetID);
-            NavigationManager.NavigateTo("/flashcardset/view");
+            await localStorage.SetItemAsync("SetID", SetID); //stores the SetID in the users local storage
+            NavigationManager.NavigateTo("/flashcardset/view"); //redirects user to view the flashcard set
         }
     }
 }
