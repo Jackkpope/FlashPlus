@@ -173,6 +173,7 @@ namespace flashplus.Data
                 OleDbDataReader reader = command.ExecuteReader();
 
                 flashcardSetModel.FlashcardSets = new List<string[]> { };
+                Title = Title[0].ToString().ToUpper() + Title.Substring(1).ToLower();
 
                 while (reader.Read())
                 {
@@ -203,6 +204,7 @@ namespace flashplus.Data
                 OleDbDataReader reader = command.ExecuteReader();
 
                 flashcardSetModel.FlashcardSets = new List<string[]> { };
+                Subject = Subject[0].ToString().ToUpper() + Subject.Substring(1).ToLower();
 
                 while (reader.Read())
                 {
