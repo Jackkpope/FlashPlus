@@ -92,7 +92,6 @@ namespace flashplus.Services
 
         private string CreatePasswordHash(string password)
         {
-            int i = 8;
             string hashPassword = null;
 
             foreach (char character in password)
@@ -100,13 +99,8 @@ namespace flashplus.Services
                 char hashValue = Convert.ToChar(Convert.ToInt32(character*17) % 257); //converts a character into its ascii value multiplies it by 17 then MODS it by 257
                 hashPassword += hashValue; //each character is added to the string
             }
-            Console.WriteLine(hashPassword);
-            Console.WriteLine(hashPassword.Length);
 
-            if(hashPassword == "K%kG¯kG?>Oq/")
-            {
-                Console.WriteLine("true");
-            }
+            hashPassword = Convert.ToBase64String(Encoding.ASCII.GetBytes(hashPassword));
 
             return hashPassword;
         }
@@ -114,7 +108,7 @@ namespace flashplus.Services
         private async Task<string> RegisterValidation()
         {
 
-            if (String.IsNullOrEmpty(entryModel.Username) || String.IsNullOrEmpty(entryModel.Password) || String.IsNullOrEmpty(entryModel.ConfirmPassword))
+            if (string.IsNullOrEmpty(entryModel.Username) || string.IsNullOrEmpty(entryModel.Password) || string.IsNullOrEmpty(entryModel.ConfirmPassword))
             {
                 return "Fields cannot be left blank";
             }

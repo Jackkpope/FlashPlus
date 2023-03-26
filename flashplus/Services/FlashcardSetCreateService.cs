@@ -139,10 +139,12 @@ namespace flashplus.Services
             {
                 errorMessage = "Title or Subject cannot be left blank";
             }
+
             if (flashcardSetModel.Flashcards.Count < 3)
             {
                 errorMessage = "Must contain at least 3 cards in a set";
             }
+
             else
             {
                 errorMessage = null;

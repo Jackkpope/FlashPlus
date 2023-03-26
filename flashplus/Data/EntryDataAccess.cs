@@ -29,8 +29,6 @@ namespace flashplus.Data
 
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 command.Parameters.AddWithValue("Username", loginModel.Username);
-                command.Parameters.AddWithValue("PasswordHash", loginModel.PasswordHash);
-
                 OleDbDataReader reader = command.ExecuteReader();
 
                 UserModel userDetails = new UserModel();
@@ -43,7 +41,9 @@ namespace flashplus.Data
                     PasswordHash = (string)reader["PasswordHash"];
                 }
 
-                if(CheckPasswordHash(loginModel.PasswordHash, PasswordHash) == true)
+                Console.WriteLine(PasswordHash + " " + loginModel.PasswordHash);
+
+                if(loginModel.PasswordHash == PasswordHash)
                 {
                     return userDetails;
                 }

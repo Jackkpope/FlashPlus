@@ -15,6 +15,7 @@ namespace flashplus.Services
 
         public FlashcardSetModel flashcardSetModel;
 
+        private string SessionID;
         public List<string[]> displayedSets;
         public int currentPageNo;
         public int totalPageNo;
@@ -33,7 +34,7 @@ namespace flashplus.Services
 
         private async Task InitiliazeLibrary()
         {
-            String SessionID = await localStorage.GetItemAsync<string>("SessionID");
+            SessionID = await localStorage.GetItemAsync<string>("SessionID");
             flashcardSetModel = await FlashcardSetDataAccess.GetAllFlashcardSetsByUserAsync(SessionID);
 
             currentPageNo = 1;

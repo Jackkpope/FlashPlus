@@ -30,10 +30,9 @@ namespace flashplus.Services
 
         private async Task InitiliazeView()
         {
-            string SessionID = await localStorage.GetItemAsync<string>("SessionID");
             string SetID = await localStorage.GetItemAsync<string>("SetID");
 
-            flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SessionID, SetID);
+            flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SetID);
             currentCardNo = 1;
             flashcardSetModel.Flashcard = flashcardSetModel.Flashcards[0];
         }

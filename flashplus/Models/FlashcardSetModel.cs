@@ -14,6 +14,7 @@ namespace flashplus.Models
         public string Answer { get; set; }
         public int TotalCards { get; set; }
         public int CardID { get; set; }
+        public int UserID { get; set; }
         public int SetID { get; set; }
 
         //Model used to store and show data for flashcard sets

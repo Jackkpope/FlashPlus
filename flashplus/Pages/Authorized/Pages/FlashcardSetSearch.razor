@@ -27,7 +27,7 @@
                     <div class="set-row">
                         <div class="searchbar center-horizontal">
                             <InputTextArea class="textarea" @bind-value="@flashcardSetSearchService.searchModel.Search" ValueExpression="@(() => flashcardSetSearchService.searchModel.Search)" />
-                            <button class ="search-button" type="submit" @onclick="@flashcardSetSearchService.SubmitSearch">Search</button>
+                            <button class ="search-button" type="submit" @onclick="@(async () => await flashcardSetSearchService.SubmitSearch())">Search</button>
                         </div>
                     </div>
 
@@ -42,42 +42,49 @@
                             </div>
                         }
                     </div>
-                    }
-                    else
-                    {
-                        <p>Make a search</p>
-                    }
 
                     <div class="center-horizontal">
                         <button @onclick="@flashcardSetSearchService.PreviousPage" class="nextcard-button">&lt;</button>
                         <p id="card-counter">@flashcardSetSearchService.currentPageNo / @flashcardSetSearchService.totalPageNo</p>
                         <button @onclick="@flashcardSetSearchService.NextPage" class="nextcard-button">&gt;</button>
                     </div>
+                    }
+
+                    @if (flashcardSetSearchService.errorMessage != null)
+                    {
+                        <p class="error-message">@flashcardSetSearchService.errorMessage</p>
+                    }
                 </div>
 
                 <div class="RHS-container">
                     <div class="searchoptions-container">
                         <div class="options-container">
                             <h1>Sort</h1>
-                            <div class="option">
-                                <label for="Alphabetical">A to Z</label><br>
-                                <input id="Alphabetical" type="checkbox">
-                            </div>
-                            <div class="option">
-                                <label for="Alphabetical">Z to A</label><br>
-                                <input id="AlphabeticalInvert" type="checkbox">
-                            </div>
-                            <div class="option">
-                                <label for="Age">Newest to Oldest</label><br>
-                                <input id="Age" type="checkbox">
-                            </div>
+                            <InputRadioGroup @bind-Value="@flashcardSetSearchService.searchModel.SortType">
+                                <div class="option">
+                                    <label for="Alphabetical">A to Z</label><br>
+                                    <InputRadio id="Alphabetical" Value="flashcardSetSearchService.searchModel.SortTypes[0]" />
+                                </div>
+                                <div class="option">
+                                    <label for="AlphabeticalInvert">Z to A</label><br>
+                                    <InputRadio id="AlphabeticalInvert" Value="flashcardSetSearchService.searchModel.SortTypes[1]"/>
+                                </div>
+                            </InputRadioGroup>
                         </div>
 
                         <div class="options-container">
-                            <h1>Filter</h1>
+                            <h1>Search</h1>
+                            <InputRadioGroup @bind-Value="@flashcardSetSearchService.searchModel.SearchType">
+                                <div class="option">
+                                    <label for="Title">Title</label><br>
+                                    <InputRadio id="Title" Value="flashcardSetSearchService.searchModel.SearchTypes[0]" />
+                                </div>
+                                <div class="option">
+                                    <label for="Subject">Subject</label><br>
+                                    <InputRadio id="Subject" Value="flashcardSetSearchService.searchModel.SearchTypes[1]" />
+                                </div>
+                            </InputRadioGroup>
                         </div>
-
-                        <button class="search-button2">Apply</button>
                     </div>
                 </div>
             </div>

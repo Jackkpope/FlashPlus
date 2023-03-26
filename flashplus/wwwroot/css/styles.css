@@ -353,8 +353,9 @@ p2 {
 }
 
 .error-message {
-    font-size: 14px;
-    color: #e42a2a;
+    text-decoration: none;
+    font-size: 18px;
+    color: #D2042D;
 }
 
 /*----------------------------------------------VIEW / CREATE-------------------------------------------------------------------*/
@@ -599,7 +600,7 @@ p2 {
 .RHS-container {
     margin: 40px 0px 0px 20px;
     width: fit-content;
-    height: auto;
+    height: 400px;
     border-radius: 20px;
     background-color: #264653;
 }

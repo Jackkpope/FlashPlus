@@ -3,10 +3,14 @@
     public class SearchModel
     {
         public string Search { get; set; }
-        public string Title { get; set; }
-        public string Subject { get; set; }
-        public bool OrderByAlphabetical { get; set; }
-        public bool OrderByAlphabeticalInverse { get; set; }
-        public bool OrderByAge { get; set; }
+        public string SearchType { get; set; }
+
+        public string[] SearchTypes = { "Title", "Subject"};
+        public string SortType { get; set; }
+
+        public string[] SortTypes = { "AZ", "ZA"};
+        public bool AZ { get; set; }
+        public bool ZA { get; set; }
+        public bool Newest { get; set; }
     }
 }

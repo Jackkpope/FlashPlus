@@ -5,7 +5,7 @@ namespace flashplus.Data
 {
     public interface IFlashcardSetDataAccess
     {
-        Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string ID, string SetID);
+        Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string SetID);
         Task<FlashcardSetModel> GetAllFlashcardSetsByUserAsync(string ID);
         Task<FlashcardSetModel> GetAllFlashcardSetsByTitleAsync(string Title);
         Task<FlashcardSetModel> GetAllFlashcardSetsBySubjectAsync(string Subject);
@@ -21,7 +21,7 @@ namespace flashplus.Data
 
         private static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Jackp\Documents\flashplus.accdb;Persist Security Info=False;";
 
-        public async Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string ID, string SetID)
+        public async Task<FlashcardSetModel> GetFlashcardSetDetailsAsync(string SetID)
         {
             FlashcardSetModel flashcardSetModel = new FlashcardSetModel();
 
@@ -29,26 +29,27 @@ namespace flashplus.Data
             {
                 connection.Open();
 
-                string queryString = @"SELECT Username FROM UserDetails WHERE ID=?;";
+                string queryString = @"SELECT ID, SetName, Subject, TotalCards FROM FlashcardSets WHERE SetID=?;";
                 OleDbCommand command = new OleDbCommand(queryString, connection);
-                command.Parameters.AddWithValue("ID", ID);
+                command.Parameters.AddWithValue("SetID", SetID);
                 OleDbDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    flashcardSetModel.CreatedUsername = (string)reader["Username"];
+                    flashcardSetModel.UserID = (int)reader["ID"];
+                    flashcardSetModel.Title = (string)reader["SetName"];
+                    flashcardSetModel.Subject = (string)reader["Subject"];
+                    flashcardSetModel.TotalCards = (int)reader["TotalCards"];
                 }
 
-                queryString = @"SELECT SetName, Subject, TotalCards FROM FlashcardSets WHERE SetID=?;";
+                queryString = @"SELECT Username FROM UserDetails WHERE ID=?;";
                 command = new OleDbCommand(queryString, connection);
-                command.Parameters.AddWithValue("SetID", SetID);
+                command.Parameters.AddWithValue("ID", flashcardSetModel.UserID);
                 reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    flashcardSetModel.Title = (string)reader["SetName"];
-                    flashcardSetModel.Subject = (string)reader["Subject"];
-                    flashcardSetModel.TotalCards = (int)reader["TotalCards"];
+                    flashcardSetModel.CreatedUsername = (string)reader["Username"];
                 }
 
                 queryString = @"SELECT Question, Answer FROM Flashcards WHERE SetID=?;";
@@ -196,7 +197,7 @@ namespace flashplus.Data
             {
                 connection.Open();
 
-                string queryString = @"SELECT SetName, SetID FROM FlashcardSets WHERE Subject=?;";
+                string queryString = @"SELECT ID, SetName, SetID FROM FlashcardSets WHERE Subject=?;";
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 command.Parameters.AddWithValue("Subject", Subject);
                 OleDbDataReader reader = command.ExecuteReader();
@@ -205,11 +206,13 @@ namespace flashplus.Data
 
                 while (reader.Read())
                 {
+
                     flashcardSetModel.Title = (string)reader["SetName"];
                     flashcardSetModel.Subject = Subject;
                     flashcardSetModel.SetID = (int)reader["SetID"];
 
-                    string[] FlashcardSet = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID) };
+
+                    string[] FlashcardSet = { flashcardSetModel.Title, flashcardSetModel.Subject, Convert.ToString(flashcardSetModel.SetID)};
 
                     flashcardSetModel.FlashcardSets.Add(FlashcardSet);
                 }
