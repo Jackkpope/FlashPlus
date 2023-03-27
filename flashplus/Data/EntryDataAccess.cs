@@ -25,33 +25,22 @@ namespace flashplus.Data
 
                 Console.WriteLine(loginModel.PasswordHash);
 
-                string queryString = @"SELECT ID,Username,PasswordHash FROM UserDetails WHERE Username=?;";
+                string queryString = @"SELECT ID,Username FROM UserDetails WHERE Username=? AND PasswordHash=?;";
 
                 OleDbCommand command = new OleDbCommand(queryString, connection);
                 command.Parameters.AddWithValue("Username", loginModel.Username);
+                command.Parameters.AddWithValue("PasswordHash", loginModel.PasswordHash);
                 OleDbDataReader reader = command.ExecuteReader();
 
                 UserModel userDetails = new UserModel();
-                string PasswordHash = null;
 
                 while (reader.Read())
                 {
                     userDetails.ID = (int)reader["ID"];
                     userDetails.Username = (string)reader["Username"];
-                    PasswordHash = (string)reader["PasswordHash"];
                 }
 
-                Console.WriteLine(PasswordHash + " " + loginModel.PasswordHash);
-
-                if(loginModel.PasswordHash == PasswordHash)
-                {
-                    return userDetails;
-                }
-                else
-                {
-                    userDetails = new UserModel();
-                    return userDetails;
-                }
+                return userDetails;
             }
 
         }
@@ -97,31 +86,6 @@ namespace flashplus.Data
                 {
                     return true;
                 }
-            }
-        }
-
-        private bool CheckPasswordHash(string enteredPassword, string databasePassword)
-        {
-            int value1 = 0;
-            int value2 = 0;
-
-            foreach (var character in enteredPassword)
-            {
-                value1 =+ Convert.ToInt32(character);
-            }
-
-            foreach (var character in databasePassword)
-            {
-                value2 =+ Convert.ToInt32(character);
-            }
-
-            if (value1 == value2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

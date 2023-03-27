@@ -1,0 +1,93 @@
+﻿@page "/flashcardset/flash"
+@layout AuthorizedLayout
+
+@inject IFlashcardSetDataAccess FlashcardSetDataAccess
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+@code {
+    FlashcardSetFlashService flashcardSetFlashService;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        flashcardSetFlashService = new FlashcardSetFlashService(FlashcardSetDataAccess, localStorage, NavigationManager);
+        await flashcardSetFlashService.InitializeFlash();
+
+        flashcardSetFlashService.IsInitialized = true;
+    }
+
+}
+
+@if (flashcardSetFlashService.IsInitialized)
+{
+    <div class="center-horizontal">
+
+        @if (flashcardSetFlashService.errorMessage == null)
+            {
+                <div class="flash-container">
+                    <div>
+                        <h3>@flashcardSetFlashService.flashcardSetModel.Title</h3>
+                    </div>
+
+                    <div class="main-row">
+                        <div class="main-card center-horizontal center-vertical">
+                            <h2>@flashcardSetFlashService.flashcardSetModel.Question</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-row">
+
+                        <div class="sub-card" @onclick="@(() => flashcardSetFlashService.OnSubmit(0))">
+                            <p>@flashcardSetFlashService.displayedAnswers[0]</p>
+                        </div>
+
+                        <div class="sub-card" @onclick="@(() => flashcardSetFlashService.OnSubmit(1))">
+                            <p>@flashcardSetFlashService.displayedAnswers[1]</p>
+                        </div>
+
+                        <div class="sub-card" @onclick="@(() => flashcardSetFlashService.OnSubmit(2))">
+                            <p>@flashcardSetFlashService.displayedAnswers[2]</p>
+                        </div>
+
+                        <div class="sub-card" @onclick="@(() => flashcardSetFlashService.OnSubmit(3))">
+                            <p>@flashcardSetFlashService.displayedAnswers[3]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-container">
+
+                    <div class="center-horizontal">
+                        <div class="timer center-horizontal center-vertical">
+                        <h2>@flashcardSetFlashService.currentTimeRemaining</h2>
+                        </div>
+                    </div>
+
+                    <div class="center-horizontal">
+                        <div class="total">
+                        <h2>@flashcardSetFlashService.currentStreak</h2>
+                            <p>in a row</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            else
+            {
+            <div class="flash-container2">
+                <div class="main-row">
+                    <div class="main-card center-horizontal center-vertical">
+                        <p>You got</p>
+                    <h3>@flashcardSetFlashService.currentStreak</h3>
+                        <p>in a row</p>
+                    </div>
+                </div>
+                <div class="center-horizontal">
+                    <p class="error-message">@flashcardSetFlashService.errorMessage</p>
+                </div>
+            </div>
+            }
+
+    </div>
+}

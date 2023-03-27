@@ -70,7 +70,7 @@
                     {
                         <button class="newcard-button" type="submit" @onclick="@flashcardSetCreateService.AddCard">+</button>
                     }
-                    <button class="submit-button" type="submit" @onclick="@flashcardSetCreateService.Submit">✓</button>
+                    <button class="submit-button" type="submit" @onclick="@flashcardSetCreateService.OnSubmit">✓</button>
                 </div>
 
                 @if (flashcardSetCreateService.errorMessage != null)

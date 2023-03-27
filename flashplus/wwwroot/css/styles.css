@@ -853,22 +853,138 @@ p2 {
     background-color: #757575;
 }
 
-.createfolder-button {
-    font-family: 'MADE Okine Sans PERSONAL USE';
-    font-size: 20px;
+/*---------------------------------------------- FLASH GAME -------------------------------------------------------------------*/
+
+.flash-container {
+    margin: 40px 0px 0px 235px;
+    padding: 5px 50px 40px 50px;
+    width: 750px;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+    .flash-container h2 {
+        font-size: 30px;
+    }
+
+    .flash-container p, flash-container2 p {
+        text-align: center;
+        font-size: 16px;
+    }
+
+.flash-container2 {
+    margin: 40px 0px 0px 0px;
+    padding: 5px 50px 40px 50px;
+    width: 750px;
+    height: auto;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+.main-row {
+    margin: 30px 0px 30px 0px;
+    display: flex;
+}
+
+.card-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .card-row .sub-card:nth-child(2n-1) {
+        margin: 0px 20px 0px 0px;
+    }
+
+    .card-row .sub-card:nth-child(4n-3) {
+        margin: 0px 20px 20px 0px;
+    }
+
+
+.main-card {
+    width: 750px;
+    height: 350px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center;
+
     background-color: #ffffff;
-    color: #264653;
-    border: 0px;
-    border-radius: 10px;
-    width: 200px;
-    height: 40px;
+}
+
+    .main-card h3 {
+        font-size: 70px;
+        margin: 10px;
+        color: #e9c46a;
+    }
+
+.sub-card {
+    width: 365px;
+    height: 150px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
     transition-duration: 0.2s;
 }
 
-    .createfolder-button:hover {
+    .sub-card:hover {
         cursor: pointer;
-        color: #ffffff;
-        background-color: #e9c46a;
-        transform: scale(1.05);
+        transform: scale(1.025);
         transition-duration: 0.2s;
+    }
+
+.sub-card-correct {
+    background-color: #2fe489;
+}
+
+.sub-card-incorrect {
+    color: #ffffff;
+    background-color: #e42f3e;
+}
+
+    .sub-card-correct p, .sub-card-incorrect p {
+        color: #ffffff;
+    }
+
+.side-container {
+    padding: 0px 0px 20px 0px;
+    margin: 40px 0px 0px 20px;
+    width: 195px;
+    height: fit-content;
+    border-radius: 20px;
+    background-color: #264653;
+}
+
+    .side-container h2 {
+        margin: 20px 0px 0px 0px;
+        font-size: 40px;
+        text-align: center;
+        color: #e9c46a;
+    }
+
+    .side-container p {
+        font-size: 18px;
+        margin: 0px;
+        color: #ffffff;
+    }
+
+.total {
+}
+
+.timer {
+    margin: 35px 0px 0px 0px;
+    height: 175px;
+    width: 175px;
+    border-radius: 50%;
+    background-color: #ffffff;
+}
+
+    .timer h2 {
+        margin: 10px 0px 0px 0px;
+        font-size: 60px;
+        text-align: center;
+        color: #264653;
     }

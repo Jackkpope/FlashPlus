@@ -113,7 +113,12 @@ namespace flashplus.Services
             flashcardSetModel.Answer = flashcardSetModel.Flashcards[flashcardSetModel.CardID - 1][1];
         }
 
-        public async Task Submit()
+        public async Task OnSubmit()
+        {
+            await Submit();
+        }
+
+        private async Task Submit()
         {
             ValidateSubmit();
 
