@@ -868,7 +868,7 @@ p2 {
         font-size: 30px;
     }
 
-    .flash-container p, flash-container2 p {
+    .flash-container p{
         text-align: center;
         font-size: 16px;
     }
@@ -881,6 +881,11 @@ p2 {
     border-radius: 20px;
     background-color: #264653;
 }
+
+    .flash-container2 p1 {
+        text-align: center;
+        font-size: 26px;
+    }
 
 .main-row {
     margin: 30px 0px 30px 0px;
@@ -914,7 +919,7 @@ p2 {
 }
 
     .main-card h3 {
-        font-size: 70px;
+        font-size: 100px;
         margin: 10px;
         color: #e9c46a;
     }

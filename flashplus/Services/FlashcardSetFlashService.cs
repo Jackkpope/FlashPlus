@@ -17,8 +17,6 @@ namespace flashplus.Services
         public FlashcardSetModel flashcardSetModel;
         public bool IsInitialized;
 
-        public bool OutOfTime;
-        public int currentTimeRemaining;
         public int currentStreak;
         public string errorMessage;
         public List<string> displayedAnswers;
@@ -26,7 +24,6 @@ namespace flashplus.Services
         private string[] Questions;
         private string[] Answers;
         private int currentCard;
-        private System.Timers.Timer timer;
 
         public FlashcardSetFlashService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
@@ -72,7 +69,6 @@ namespace flashplus.Services
             displayedAnswers = new List<string>(RetrieveRandomAnswers(Answers));
             displayedAnswers = RandomizeList(displayedAnswers, 4);
 
-            ResetTimer();
         }
 
         private void NextCard()
@@ -86,36 +82,10 @@ namespace flashplus.Services
 
                 displayedAnswers = new List<string>(RetrieveRandomAnswers(Answers));
                 displayedAnswers = RandomizeList(displayedAnswers, 4);
-
-                ResetTimer();
             }
             else
             {
                 SetValues();
-                ResetTimer();
-            }
-        }
-
-        private void ResetTimer()
-        {
-            OutOfTime = false;
-            currentTimeRemaining = 20;
-
-            timer = new System.Timers.Timer(1000);
-            timer.Elapsed += OnTimer;
-            timer.Enabled = true;
-        }
-
-        private void OnTimer(object sender, ElapsedEventArgs e)
-        {
-            currentTimeRemaining--;
-
-            if (currentTimeRemaining == 0)
-            {
-                timer.Enabled = false;
-                timer.Dispose();
-                OutOfTime = true;
-                errorMessage = "Ran out of time";
             }
         }
 
@@ -126,9 +96,6 @@ namespace flashplus.Services
 
         private void Submit(int answer)
         {
-            timer.Enabled = false;
-            timer.Dispose();
-
             if (displayedAnswers[answer]==flashcardSetModel.Answer)
             {
                 errorMessage = null;
@@ -138,6 +105,7 @@ namespace flashplus.Services
             }
             else
             {
+                // store here in DATABASE
                 errorMessage = "Incorrect Answer";
             }
         }
