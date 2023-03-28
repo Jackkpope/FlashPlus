@@ -9,8 +9,5 @@
         public string SortType { get; set; }
 
         public string[] SortTypes = { "AZ", "ZA"};
-        public bool AZ { get; set; }
-        public bool ZA { get; set; }
-        public bool Newest { get; set; }
     }
 }

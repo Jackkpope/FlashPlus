@@ -14,10 +14,6 @@ namespace flashplus.Data
 
     public class FlashcardSetDataAccess : IFlashcardSetDataAccess
     {
-        public FlashcardSetDataAccess()
-        {
-
-        }
 
         private static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Jackp\Documents\flashplus.accdb;Persist Security Info=False;";
 
@@ -153,8 +149,10 @@ namespace flashplus.Data
                 {
                     return false;
                 }
-
-                return true;
+                else
+                {
+                    return true;
+                }
 
             }
         }

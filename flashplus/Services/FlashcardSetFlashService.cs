@@ -10,11 +10,14 @@ namespace flashplus.Services
 {
     public class FlashcardSetFlashService : ComponentBase
     {
+        private readonly ILeaderboardDataAccess LeaderboardDataAccess;
         private readonly IFlashcardSetDataAccess FlashcardSetDataAccess;
         private readonly ILocalStorageService localStorage;
         private readonly NavigationManager NavigationManager;
 
         public FlashcardSetModel flashcardSetModel;
+        public LeaderboardModel leaderboardModel;
+
         public bool IsInitialized;
 
         public int currentStreak;
@@ -25,8 +28,12 @@ namespace flashplus.Services
         private string[] Answers;
         private int currentCard;
 
-        public FlashcardSetFlashService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
+        private int ID;
+        private int SetID;
+
+        public FlashcardSetFlashService(ILeaderboardDataAccess leaderboardDataAccess, IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
+            LeaderboardDataAccess = leaderboardDataAccess;
             FlashcardSetDataAccess = flashcardSetDataAccess;
             this.localStorage = localStorage;
             NavigationManager = navigationManager;
@@ -40,8 +47,9 @@ namespace flashplus.Services
         private async Task Flash()
         {
             flashcardSetModel = new FlashcardSetModel();
-            string SetID = await localStorage.GetItemAsync<string>("SetID");
-            flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SetID);
+            ID = await localStorage.GetItemAsync<int>("ID");
+            SetID = await localStorage.GetItemAsync<int>("SetID");
+            flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(Convert.ToString(SetID));
 
             Questions = new string[flashcardSetModel.TotalCards];
             Answers = new string[flashcardSetModel.TotalCards];
@@ -89,12 +97,12 @@ namespace flashplus.Services
             }
         }
 
-        public void OnSubmit(int answer)
+        public async Task OnSubmit(int answer)
         {
-            Submit(answer);
+            await Submit(answer);
         }
 
-        private void Submit(int answer)
+        private async Task Submit(int answer)
         {
             if (displayedAnswers[answer]==flashcardSetModel.Answer)
             {
@@ -105,7 +113,6 @@ namespace flashplus.Services
             }
             else
             {
-                // store here in DATABASE
                 errorMessage = "Incorrect Answer";
             }
         }

@@ -12,6 +12,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton<IEntryDataAccess, EntryDataAccess>();
 builder.Services.AddSingleton<IFlashcardSetDataAccess, FlashcardSetDataAccess>();
+builder.Services.AddSingleton<ILeaderboardDataAccess, LeaderboardDataAccess>();
 
 var app = builder.Build();
 
