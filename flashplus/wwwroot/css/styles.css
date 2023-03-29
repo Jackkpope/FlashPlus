@@ -577,6 +577,26 @@ p2 {
         transition-duration: 0.2s;
     }
 
+.extras-button2 {
+    font-family: 'MADE Okine Sans PERSONAL USE';
+    font-size: 24px;
+    background-color: #ffffff;
+    color: #264653;
+    border: 0px;
+    border-radius: 10px;
+    width: 175px;
+    height: 75px;
+    margin: 20px 10px 0px 10px;
+    transition-duration: 0.2s;
+}
+
+    .extras-button2:hover {
+        cursor: pointer;
+        color: #ffffff;
+        background-color: #e42f3e;
+        transform: scale(1.05);
+        transition-duration: 0.2s;
+    }
 
 .createhead {
     margin: 28px 0px 28px 62px;

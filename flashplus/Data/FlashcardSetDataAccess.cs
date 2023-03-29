@@ -10,6 +10,7 @@ namespace flashplus.Data
         Task<FlashcardSetModel> GetAllFlashcardSetsByTitleAsync(string Title);
         Task<FlashcardSetModel> GetAllFlashcardSetsBySubjectAsync(string Subject);
         Task<bool> SetFlashcardSetDetailsAsync(string ID, FlashcardSetModel flashcardSetModel);
+        Task<bool> RemoveFlashcardSetAsync(string ID, string SetID);
     }
 
     public class FlashcardSetDataAccess : IFlashcardSetDataAccess
@@ -218,6 +219,41 @@ namespace flashplus.Data
                 }
 
                 return flashcardSetModel;
+            }
+        }
+
+        public async Task<bool> RemoveFlashcardSetAsync(string ID, string SetID)
+        {
+            await using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                connection.Open();
+
+                string queryString = @"DELETE FROM Flashcards WHERE SetID=?;";
+                OleDbCommand command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("SetID", SetID);
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
+
+
+                queryString = @"DELETE FROM FlashcardSets WHERE SetID=?;";
+                command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("SetID", SetID);
+
+                rowsAffected = command.ExecuteNonQuery();
+
+                if (rowsAffected == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }

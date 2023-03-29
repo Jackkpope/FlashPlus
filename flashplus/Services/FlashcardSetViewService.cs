@@ -13,6 +13,9 @@ namespace flashplus.Services
 
         public FlashcardSetModel flashcardSetModel;
         public int currentCardNo;
+        private string SetID;
+        private string ID;
+        public bool owner;
 
         public FlashcardSetViewService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
@@ -28,13 +31,36 @@ namespace flashplus.Services
             await InitiliazeView();
         }
 
+        public async Task GetDeleteFlashcardSet()
+        {
+            await DeleteFlashcardSet();
+        }
+
         private async Task InitiliazeView()
         {
-            string SetID = await localStorage.GetItemAsync<string>("SetID");
+            SetID = await localStorage.GetItemAsync<string>("SetID");
+            ID = await localStorage.GetItemAsync<string>("ID");
+            string Username = await localStorage.GetItemAsync<string>("Username");
 
             flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(SetID);
             currentCardNo = 1;
             flashcardSetModel.Flashcard = flashcardSetModel.Flashcards[0];
+
+            if(Username == flashcardSetModel.CreatedUsername)
+            {
+                owner = true;
+            }
+            else
+            {
+                owner = false;
+            }
+        }
+
+        private async Task DeleteFlashcardSet()
+        {
+            Console.WriteLine(ID + " " + SetID);
+            await FlashcardSetDataAccess.RemoveFlashcardSetAsync(ID, SetID);
+            NavigationManager.NavigateTo("/flashcardset/library");
         }
 
         public void GetNextCard()
