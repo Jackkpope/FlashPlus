@@ -67,6 +67,7 @@ namespace flashplus.Services
 
             if (String.IsNullOrEmpty(errorMessage))
             {
+                entryModel.PasswordHash = CreatePasswordHash(entryModel.Password);
                 bool complete = await EntryDataAccess.AddUserDetailsAsync(entryModel);
 
                 if (complete == true)

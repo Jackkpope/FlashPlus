@@ -51,8 +51,10 @@ namespace flashplus.Data
             {
                 connection.Open();
 
-                string queryString = @"INSERT INTO UserDetails (Username,PasswordHash) VALUES ('"+ registerModel.Username + "','"+ registerModel.Password + "');";
+                string queryString = @"INSERT INTO UserDetails (Username,PasswordHash) VALUES (@Username,@PasswordHash);";
                 OleDbCommand command = new OleDbCommand(queryString, connection);
+                command.Parameters.AddWithValue("@Username", registerModel.Username);
+                command.Parameters.AddWithValue("@PasswordHash", registerModel.PasswordHash);
                 int rowsAffected = command.ExecuteNonQuery();
 
                 if (rowsAffected > 0)
