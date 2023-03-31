@@ -16,6 +16,7 @@
         }
         catch
         {
+            //if not then redirect to login
             NavigationManager.NavigateTo("/login");
         }
 
@@ -40,5 +41,5 @@
 
     </header>
 
-    @Body
+    @Body //displays the rest of the HTML
 }

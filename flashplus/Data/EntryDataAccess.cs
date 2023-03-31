@@ -23,8 +23,6 @@ namespace flashplus.Data
             {
                 connection.Open();
 
-                Console.WriteLine(loginModel.PasswordHash);
-
                 string queryString = @"SELECT ID,Username FROM UserDetails WHERE Username=? AND PasswordHash=?;";
 
                 OleDbCommand command = new OleDbCommand(queryString, connection);

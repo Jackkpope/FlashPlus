@@ -104,7 +104,6 @@ namespace flashplus.Data
                 reader.Read();
                 int count = (int)reader[0];
 
-                Console.WriteLine("the count is: "+count);
 
                 if (count > 0)
                 {

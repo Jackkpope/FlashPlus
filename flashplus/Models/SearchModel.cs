@@ -9,5 +9,7 @@
         public string SortType { get; set; }
 
         public string[] SortTypes = { "AZ", "ZA"};
+
+        //Model used to store and show search data 
     }
 }

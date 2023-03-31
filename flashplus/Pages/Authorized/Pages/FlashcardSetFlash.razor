@@ -1,7 +1,6 @@
 ﻿@page "/flashcardset/flash"
 @layout AuthorizedLayout
 
-@inject ILeaderboardDataAccess LeaderboardDataAccess
 @inject IFlashcardSetDataAccess FlashcardSetDataAccess
 @inject ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
@@ -12,7 +11,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        flashcardSetFlashService = new FlashcardSetFlashService(LeaderboardDataAccess, FlashcardSetDataAccess, localStorage, NavigationManager);
+        flashcardSetFlashService = new FlashcardSetFlashService(FlashcardSetDataAccess, localStorage, NavigationManager);
         await flashcardSetFlashService.InitializeFlash();
 
         flashcardSetFlashService.IsInitialized = true;
@@ -78,9 +77,11 @@
                     </div>
                 </div>
 
-                <NavLink class="center-horizontal" href="flashcardset/flash">
-                    <button id="flash" class="extras-button">Try Again</button>
-                </NavLink>
+                <div class="center-horizontal">
+                    <NavLink href="flashcardset/view">
+                        <button id="flash" class="extras-button">Try Again</button>
+                    </NavLink>
+                </div>
 
                 <div class="center-horizontal">
                     <p class="error-message">@flashcardSetFlashService.errorMessage</p>

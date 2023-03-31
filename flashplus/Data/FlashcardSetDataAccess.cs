@@ -141,8 +141,6 @@ namespace flashplus.Data
                     command.Parameters.AddWithValue("@Answer", card[1]);
                     flashcardSetModel.CardID++;
 
-                    Console.WriteLine(flashcardSetModel.CardID.ToString()+" "+ flashcardSetModel.SetID.ToString() + " " + card[0]+" "+ card[1]);
-
                     rowsAffected = command.ExecuteNonQuery();
                 }
 

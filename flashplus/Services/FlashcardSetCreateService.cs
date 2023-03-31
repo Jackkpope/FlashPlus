@@ -129,7 +129,7 @@ namespace flashplus.Services
 
                 if (complete)
                 {
-                    NavigationManager.NavigateTo("/dashboard");
+                    NavigationManager.NavigateTo("/dashboard"); //redirects to dashboard
                 }
                 else
                 {
@@ -145,9 +145,14 @@ namespace flashplus.Services
                 errorMessage = "Title or Subject cannot be left blank";
             }
 
-            if (flashcardSetModel.Flashcards.Count < 3)
+            if (flashcardSetModel.Flashcards.Count < 4)
             {
-                errorMessage = "Must contain at least 3 cards in a set";
+                errorMessage = "Must contain at least 4 cards in a set";
+            }
+
+            if (flashcardSetModel.Flashcards.Count > 20)
+            {
+                errorMessage = "Cannot have more than 20 cards in a set";
             }
 
             else

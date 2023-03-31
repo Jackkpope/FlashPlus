@@ -10,7 +10,6 @@ namespace flashplus.Services
 {
     public class FlashcardSetFlashService : ComponentBase
     {
-        private readonly ILeaderboardDataAccess LeaderboardDataAccess;
         private readonly IFlashcardSetDataAccess FlashcardSetDataAccess;
         private readonly ILocalStorageService localStorage;
         private readonly NavigationManager NavigationManager;
@@ -28,12 +27,10 @@ namespace flashplus.Services
         private string[] Answers;
         private int currentCard;
 
-        private int ID;
         private int SetID;
 
-        public FlashcardSetFlashService(ILeaderboardDataAccess leaderboardDataAccess, IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
+        public FlashcardSetFlashService(IFlashcardSetDataAccess flashcardSetDataAccess, ILocalStorageService localStorage, NavigationManager navigationManager)
         {
-            LeaderboardDataAccess = leaderboardDataAccess;
             FlashcardSetDataAccess = flashcardSetDataAccess;
             this.localStorage = localStorage;
             NavigationManager = navigationManager;
@@ -47,7 +44,6 @@ namespace flashplus.Services
         private async Task Flash()
         {
             flashcardSetModel = new FlashcardSetModel();
-            ID = await localStorage.GetItemAsync<int>("ID");
             SetID = await localStorage.GetItemAsync<int>("SetID");
             flashcardSetModel = await FlashcardSetDataAccess.GetFlashcardSetDetailsAsync(Convert.ToString(SetID));
 
@@ -141,9 +137,7 @@ namespace flashplus.Services
             while (count > 1) // fisher-yates shuffle algorithm
             {
                 count--;
-                Console.WriteLine(count);
                 int k = random.Next(count+1);
-                Console.WriteLine(k);
                 string value = list[k];
                 list[k] = list[count];
                 list[count] = value;

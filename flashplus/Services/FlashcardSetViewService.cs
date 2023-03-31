@@ -58,7 +58,6 @@ namespace flashplus.Services
 
         private async Task DeleteFlashcardSet()
         {
-            Console.WriteLine(ID + " " + SetID);
             await FlashcardSetDataAccess.RemoveFlashcardSetAsync(ID, SetID);
             NavigationManager.NavigateTo("/flashcardset/library");
         }

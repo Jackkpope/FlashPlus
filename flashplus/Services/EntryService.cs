@@ -29,11 +29,11 @@ namespace flashplus.Services
         public async Task HandleLogin()
         {
             if (!(String.IsNullOrEmpty(entryModel.Username) || String.IsNullOrEmpty(entryModel.Password)))
-            {
+            { //checks neither fields are empty
                 try
                 {
-                    entryModel.PasswordHash = CreatePasswordHash(entryModel.Password);
-                    UserModel userModel = await EntryDataAccess.GetUserDetailsAsync(entryModel);
+                    entryModel.PasswordHash = CreatePasswordHash(entryModel.Password); //creates password hash
+                    UserModel userModel = await EntryDataAccess.GetUserDetailsAsync(entryModel); //checks entrydetails are valid
 
                     if (userModel.ID != 0)
                     {
@@ -63,12 +63,12 @@ namespace flashplus.Services
         public async Task HandleRegister()
         {
 
-            errorMessage = await RegisterValidation();
+            errorMessage = await RegisterValidation(); //checks register is valid
 
             if (String.IsNullOrEmpty(errorMessage))
             {
-                entryModel.PasswordHash = CreatePasswordHash(entryModel.Password);
-                bool complete = await EntryDataAccess.AddUserDetailsAsync(entryModel);
+                entryModel.PasswordHash = CreatePasswordHash(entryModel.Password); //creates password hash
+                bool complete = await EntryDataAccess.AddUserDetailsAsync(entryModel); //adds entrydetails to DB
 
                 if (complete == true)
                 {
@@ -87,8 +87,8 @@ namespace flashplus.Services
 
         public async Task HandleLogout()
         {
-            await localStorage.ClearAsync();
-            NavigationManager.NavigateTo("/");
+            await localStorage.ClearAsync(); //removes all values in local storage
+            NavigationManager.NavigateTo("/"); //redirects to home page
         }
 
         private string CreatePasswordHash(string password)
@@ -121,12 +121,17 @@ namespace flashplus.Services
                 return "Username is already taken";
             }
 
-            if (entryModel.Username.Length < 4)
+            if (entryModel.Username.Length <= 4)
             {
                 return "Username must be at least 4 characters";
             }
 
-            if (entryModel.Password.Length < 8)
+            if (entryModel.Username.Length > 20)
+            {
+                return "Username must be less than 20 characters";
+            }
+
+            if (entryModel.Password.Length <= 8)
             {
                 return "Password must be at least 8 characters";
             }

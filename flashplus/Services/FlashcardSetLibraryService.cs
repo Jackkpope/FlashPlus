@@ -39,7 +39,6 @@ namespace flashplus.Services
 
             currentPageNo = 1;
             totalPageNo = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(flashcardSetModel.FlashcardSets.Count) / 6)); //Divides total flashcard sets by 6 then rounds up (e.g. 7 sets = 2 pages)
-            Console.WriteLine(totalPageNo);
             GetDisplayedSets();
         }
 

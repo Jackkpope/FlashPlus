@@ -41,14 +41,14 @@ namespace flashplus.Services
             {
                 flashcardSetModel = new FlashcardSetModel();
 
-                TypeOfSearch();
-                SortSearch();
+                TypeOfSearch(); //gets the correct type of search for DB
+                SortSearch(); //sorts the search if needed
 
                 if (flashcardSetModel.FlashcardSets.Count != 0)
                 {
                     currentPageNo = 1;
-                    totalPageNo = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(flashcardSetModel.FlashcardSets.Count) / 6)); //Divides total flashcard sets by 6 then rounds up (e.g. 7 sets = 2 pages)
-                    Console.WriteLine(totalPageNo);
+                    totalPageNo = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(flashcardSetModel.FlashcardSets.Count) / 6)); 
+                    //Divides total flashcard sets by 6 then rounds up (e.g. 7 sets = 2 pages)
                     search = true;
 
                     GetDisplayedSets();
@@ -128,11 +128,12 @@ namespace flashplus.Services
                 swapped = false;
                 for (int i = 0; i < total-1; i++)
                 {
-                    if ((int)flashcardSetModel.FlashcardSets[i][0][0] > (int)flashcardSetModel.FlashcardSets[i + 1][0][0])
-                    {
-                        string[] tempElement = flashcardSetModel.FlashcardSets[i];
+                    if ((int)flashcardSetModel.FlashcardSets[i][0][0] > (int)flashcardSetModel.FlashcardSets[i + 1][0][0]) 
+                    {//gets ASCII equivalent of first letter in each
+                        string[] tempElement = flashcardSetModel.FlashcardSets[i]; //creates a temp
                         flashcardSetModel.FlashcardSets[i] = flashcardSetModel.FlashcardSets[i + 1];
-                        flashcardSetModel.FlashcardSets[i + 1] = tempElement;
+                        flashcardSetModel.FlashcardSets[i + 1] = tempElement; 
+                        //values are now swapped
                         swapped = true;
                     }
                 }
